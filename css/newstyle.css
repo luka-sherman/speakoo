@@ -1,0 +1,32 @@
+body {
+
+	margin-top: 50px;
+
+}
+
+.my_row {
+
+	background-color: #f0f0f0;
+	padding: 10px;
+	margin:10px;
+}
+
+.my_h4 {
+	background-color: #e0e0e0;
+	padding:10px;
+	border-radius: 5px;
+}
+
+.my_X {
+	padding-top: 10px;
+}
+
+.my_btn {
+	margin-top: 20px;
+	margin-bottom: 10px;
+}
+
+.btn-primary {
+	background-color: #606060;
+
+}
