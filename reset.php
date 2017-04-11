@@ -1,7 +1,7 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "test";
+$password = "mysql";
 $dbname = "speakoo_crowd_grammar";
 
 // Create connection
