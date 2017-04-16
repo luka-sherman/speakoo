@@ -1,13 +1,13 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 
 <html>
 <head>
   <title>Javascript Racer - v4 (final)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <link href="common.css" rel="stylesheet" type="text/css" />
-</head> 
+</head>
 
-<body> 
+<body>
 
   <table id="controls">
     <tr>
@@ -70,7 +70,7 @@
   <div id="racer">
     <div id="hud">
       <span id="speed"            class="hud"><span id="speed_value" class="value">0</span> mph</span>
-      <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0.0</span></span> 
+      <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0.0</span></span>
       <span id="last_lap_time"    class="hud">Last Lap: <span id="last_lap_time_value" class="value">0.0</span></span>
       <span id="fast_lap_time"    class="hud">Fastest Lap: <span id="fast_lap_time_value" class="value">0.0</span></span>
     </div>
@@ -85,10 +85,43 @@
     <source src="music/racer.mp3">
   </audio>
   <span id="mute"></span>
+  <div class="popup" onclick="myFunction()">Click me to toggle the popup!
+    <span class="popuptext" id="myPopup">
+      <form>
 
+        This is a tester
+        <ol>
+          <li> item 1</il>
+          <li> item 2</il>
+        </ol>
+
+      </form>
+      <button onclick="popDown()"> Submit </button>
+    </span>
+  </div>
   <script src="stats.js"></script>
   <script src="common.js"></script>
   <script>
+// When the user clicks on div, open the popup
+function myFunction() {
+    var popup = document.getElementById("myPopup");
+    popup.classList.add("show");
+}
+//***************************************************
+//          popdown doesnt get rid of the popup
+//***************************************************
+function popDown(){
+    // var popdown = ;
+    console.log("popdown called");
+  //  document.getElementById("myPopup").classList.remove("show");
+      document.getElementById('myPopup').classList.remove('show')
+      window.setTimeout(myFunction,5000);
+}
+</script>
+  <script>
+    //put this line in the function that takes care of "submit" button in the popup
+
+    window.setTimeout(myFunction,5000);
 
     var fps            = 60;                      // how many 'update' frames per second
     var step           = 1/fps;                   // how long is each frame (in seconds)
@@ -409,7 +442,7 @@
     }
 
     function findSegment(z) {
-      return segments[Math.floor(z/segmentLength) % segments.length]; 
+      return segments[Math.floor(z/segmentLength) % segments.length];
     }
 
     //=========================================================================
@@ -470,7 +503,7 @@
       height = height || ROAD.HILL.NONE;
       addRoad(num, num, num, curve, height);
     }
-        
+
     function addLowRollingHills(num, height) {
       num    = num    || ROAD.LENGTH.SHORT;
       height = height || ROAD.HILL.LOW;
@@ -581,7 +614,7 @@
           offset = side * (1.5 + Math.random());
           addSprite(n + Util.randomInt(0, 50), sprite, offset);
         }
-          
+
       }
 
     }
@@ -684,5 +717,5 @@
 
   </script>
 
-</body> 
+</body>
 </html>
