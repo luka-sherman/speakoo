@@ -85,16 +85,16 @@
     <source src="music/racer.mp3">
   </audio>
   <span id="mute"></span>
-  <div class="popup" onclick="myFunction()">Click me to toggle the popup!
+  <div class="popup">Click me to toggle the popup!
     <span class="popuptext" id="myPopup">
       <form>
-
+        <span id = "question">
         This is a tester
         <ol>
-          <li> item 1</il>
-          <li> item 2</il>
+          <li> item 1</li>
+          <li> item 2</li>
         </ol>
-
+        </span>
       </form>
       <button onclick="popDown()"> Submit </button>
     </span>
@@ -104,8 +104,23 @@
   <script>
 // When the user clicks on div, open the popup
 function myFunction() {
+    populatePopup();
     var popup = document.getElementById("myPopup");
     popup.classList.add("show");
+}
+
+function populatePopup(){
+    var optionarray = ["participate","participant","participating","participates","participated"];
+    var toDisplay = "";
+    //generate question
+    var origverb = "participant";
+    //
+
+    //add an option to submit their own answer
+    for(i = 0; i<optionarray.length;i++){
+        toDisplay = toDisplay + '<input type = "radio" name = "answer" value = ' + optionarray[i]+'>' + optionarray[i] + '<br>';
+        }
+      document.getElementById("question").innerHTML = toDisplay;
 }
 //***************************************************
 //          popdown doesnt get rid of the popup
@@ -113,8 +128,8 @@ function myFunction() {
 function popDown(){
     // var popdown = ;
     console.log("popdown called");
-  //  document.getElementById("myPopup").classList.remove("show");
-      document.getElementById('myPopup').classList.remove('show')
+    document.getElementById("myPopup").classList.remove("show");
+  //    document.getElementById('myPopup').visibility=false;
       window.setTimeout(myFunction,5000);
 }
 </script>
