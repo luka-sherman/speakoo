@@ -103,10 +103,13 @@
   <script src="common.js"></script>
   <script>
 // When the user clicks on div, open the popup
+var paused = false;
+
 function myFunction() {
     populatePopup();
     var popup = document.getElementById("myPopup");
     popup.classList.add("show");
+    paused = true;
 }
 
 function populatePopup(){
@@ -114,13 +117,17 @@ function populatePopup(){
     var toDisplay = "";
     //generate question
     var origverb = "participant";
-    //
 
     //add an option to submit their own answer
     for(i = 0; i<optionarray.length;i++){
-        toDisplay = toDisplay + '<input type = "radio" name = "answer" value = ' + optionarray[i]+'>' + optionarray[i] + '<br>';
+        toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
+        if(i == 0){
+          toDisplay+= ' checked = "checked"'
         }
+        toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> <br>';
+      }
       document.getElementById("question").innerHTML = toDisplay;
+      document.getElementById("option0").focus();
 }
 //***************************************************
 //          popdown doesnt get rid of the popup
@@ -129,6 +136,7 @@ function popDown(){
     // var popdown = ;
     console.log("popdown called");
     document.getElementById("myPopup").classList.remove("show");
+    paused = false;
   //    document.getElementById('myPopup').visibility=false;
       window.setTimeout(myFunction,5000);
 }
@@ -200,6 +208,31 @@ function popDown(){
 
     function update(dt) {
 
+            if (position > playerZ) {
+              if (currentLapTime && (startPosition < playerZ)) {
+                lastLapTime    = currentLapTime;
+                currentLapTime = 0;
+                if (lastLapTime <= Util.toFloat(Dom.storage.fast_lap_time)) {
+                  Dom.storage.fast_lap_time = lastLapTime;
+                  updateHud('fast_lap_time', formatTime(lastLapTime));
+                  Dom.addClassName('fast_lap_time', 'fastest');
+                  Dom.addClassName('last_lap_time', 'fastest');
+                }
+                else {
+                  Dom.removeClassName('fast_lap_time', 'fastest');
+                  Dom.removeClassName('last_lap_time', 'fastest');
+                }
+                updateHud('last_lap_time', formatTime(lastLapTime));
+                Dom.show('last_lap_time');
+              }
+              else {
+                currentLapTime += dt;
+              }
+            }
+            updateHud('current_lap_time', formatTime(currentLapTime));
+      if(paused){
+        return;
+      }
       var n, car, carW, sprite, spriteW;
       var playerSegment = findSegment(position+playerZ);
       var playerW       = SPRITES.PLAYER_STRAIGHT.w * SPRITES.SCALE;
@@ -261,30 +294,8 @@ function popDown(){
       hillOffset = Util.increase(hillOffset, hillSpeed * playerSegment.curve * (position-startPosition)/segmentLength, 1);
       treeOffset = Util.increase(treeOffset, treeSpeed * playerSegment.curve * (position-startPosition)/segmentLength, 1);
 
-      if (position > playerZ) {
-        if (currentLapTime && (startPosition < playerZ)) {
-          lastLapTime    = currentLapTime;
-          currentLapTime = 0;
-          if (lastLapTime <= Util.toFloat(Dom.storage.fast_lap_time)) {
-            Dom.storage.fast_lap_time = lastLapTime;
-            updateHud('fast_lap_time', formatTime(lastLapTime));
-            Dom.addClassName('fast_lap_time', 'fastest');
-            Dom.addClassName('last_lap_time', 'fastest');
-          }
-          else {
-            Dom.removeClassName('fast_lap_time', 'fastest');
-            Dom.removeClassName('last_lap_time', 'fastest');
-          }
-          updateHud('last_lap_time', formatTime(lastLapTime));
-          Dom.show('last_lap_time');
-        }
-        else {
-          currentLapTime += dt;
-        }
-      }
-
       updateHud('speed',            5 * Math.round(speed/500));
-      updateHud('current_lap_time', formatTime(currentLapTime));
+
     }
 
     //-------------------------------------------------------------------------
