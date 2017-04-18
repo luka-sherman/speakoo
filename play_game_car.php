@@ -127,12 +127,12 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 			    Loading...
 			  </div>
 
-			  <!--<audio id='music'>
+			  <audio id='music'>
 			    <source src="music/racer.ogg">
 			    <source src="music/racer.mp3">
 			  </audio>
 			  <span id="mute"></span>
-				#nltk.help.upenn_tagset()
+			<!--	#nltk.help.upenn_tagset()
 			  -->
 
 			  <script src="js/stats.js"></script>
@@ -793,11 +793,11 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							//console.log(cars.length);
 
 							for (i=0; i<cars.length; i++){
-								html += '<div><em>'+cars[i][1]+'</div>';
+								html += '<div><em>'+cars[i]+'</div>';
 							}
 							//console.log(html);
 							document.getElementById("demo").innerHTML = html;
-							window.alert(html);
+							//window.alert(html);
 						</script>
 
 						<?php
