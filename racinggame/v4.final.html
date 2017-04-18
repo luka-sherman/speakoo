@@ -87,13 +87,13 @@
   <span id="mute"></span>
   <div class="popup">Click me to toggle the popup!
     <span class="popuptext" id="myPopup">
-      <form>
+      <form id = "questionform">
         <span id = "question">
-        This is a tester
+        <!-- This is a tester
         <ol>
           <li> item 1</li>
           <li> item 2</li>
-        </ol>
+        </ol> -->
         </span>
       </form>
       <button onclick="popDown()"> Submit </button>
@@ -102,10 +102,28 @@
   <script src="stats.js"></script>
   <script src="common.js"></script>
   <script>
-// When the user clicks on div, open the popup
+
+  //****************************************************
+  //  functions take care of popup
+  //****************************************************
+
+// state of the game = popup off default
 var paused = false;
 
-function myFunction() {
+//this is going to be replaced with what we get from php
+var exampleJson = '{ "task_ID" : 4, "sentence_string": "I want to talk", "action_words": [{"word_string": "want", "word_index" : 2 , "option_list" : ["want","wants","wanting","wanted"]},{"word_string": "to", "word_index" : 3, "option_list" : ["to","at","by","for"]},{"word_string": "talk", "word_index" : 4 , "option_list" : ["talk","talks","talking","talked"]}]}';
+
+
+var sentence = JSON.parse(exampleJson);
+var taskID = sentence.taskID;
+var fullSentence = sentence.sentence_string;
+var fsarray = fullSentence.split(" ");
+
+var wordsArray = sentence.action_words;
+//keeps track of current word position in the sentence
+var currentWord = 0;
+var timeoutVar;
+function displayPopup() {
     populatePopup();
     var popup = document.getElementById("myPopup");
     popup.classList.add("show");
@@ -113,38 +131,65 @@ function myFunction() {
 }
 
 function populatePopup(){
-    var optionarray = ["participate","participant","participating","participates","participated"];
+      if(currentWord>=wordsArray.length){
+              clearTimeout(timeoutVar);
+              return;
+      }
+      var optionarray = wordsArray[currentWord].option_list;
+      var optionLength = optionarray.length;
+
     var toDisplay = "";
     //generate question
-    var origverb = "participant";
+    var origverb = wordsArray[currentWord].word_string;
 
-    //add an option to submit their own answer
-    for(i = 0; i<optionarray.length;i++){
+    var qstring = '<span name = "question"> ';
+      for(j = 0; j<fsarray.length; j++){
+        if(j+1 == wordsArray[currentWord].word_index){
+          qstring+="<b>" + fsarray[j] + "</b> ";
+        }
+        else{
+          qstring += fsarray[j] + " ";
+        }
+    }
+      qstring += '</span>';
+    toDisplay+=qstring+"</br>";
+
+    // radio button for the textbox?
+    for(i = 0; i<optionLength;i++){
         toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
         if(i == 0){
           toDisplay+= ' checked = "checked"'
         }
-        toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> <br>';
+        toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> </br>';
+
       }
+
+      toDisplay+='<input type = "radio" name = "answer" id="delete"><label for = "delete"> Delete ' + origverb + " </label> </br>"
+      toDisplay+='...Or type it yourself </br><input type = "text" name = "answer" id="modify"><label for = "modify"> </label> </br>'
       document.getElementById("question").innerHTML = toDisplay;
       document.getElementById("option0").focus();
+      if(currentWord>=wordsArray.length){
+              clearTimeout(timeoutVar);
+      }
+      currentWord++;
 }
-//***************************************************
-//          popdown doesnt get rid of the popup
-//***************************************************
+
 function popDown(){
-    // var popdown = ;
-    console.log("popdown called");
     document.getElementById("myPopup").classList.remove("show");
     paused = false;
-  //    document.getElementById('myPopup').visibility=false;
-      window.setTimeout(myFunction,5000);
+    if(currentWord>=wordsArray.length){
+            clearTimeout(timeoutVar);
+            return;
+    }
+    else{
+      timeoutVar = window.setTimeout(displayPopup,5000);
+  }
 }
 </script>
   <script>
     //put this line in the function that takes care of "submit" button in the popup
 
-    window.setTimeout(myFunction,5000);
+    timeoutVar = window.setTimeout(displayPopup,5000);
 
     var fps            = 60;                      // how many 'update' frames per second
     var step           = 1/fps;                   // how long is each frame (in seconds)
