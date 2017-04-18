@@ -80,6 +80,14 @@ body          { font-family: Arial, Helvetica, sans-serif; }
     animation: fadeIn 1s;
 }
 
+.sbefore{
+  color: #bbbec1;
+  font-size: 14px;
+}
+.safter{
+  color: #bbbec1;
+  font-size: 14px;
+}
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
     from {opacity: 0;}
