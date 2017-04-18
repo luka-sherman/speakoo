@@ -127,12 +127,12 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 			    Loading...
 			  </div>
 
-			  <audio id='music'>
+			  <!--<audio id='music'>
 			    <source src="music/racer.ogg">
 			    <source src="music/racer.mp3">
 			  </audio>
 			  <span id="mute"></span>
-			<!--	#nltk.help.upenn_tagset()
+				#nltk.help.upenn_tagset()
 			  -->
 
 			  <script src="js/stats.js"></script>
@@ -782,10 +782,78 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						$exeDir2 ="\"import nltk;text = nltk.word_tokenize('".$row["current_string"]."');print nltk.pos_tag(text)\"";
 						$test = "/usr/local/bin/python -c $exeDir";
 						$array_nltk= shell_exec($test);
-						//echo $array_nltk;
+						$array_nltk_php = json_decode($array_nltk);
+
+						//print_r($array_nltk_php);
+						foreach ($array_nltk_php as $i => $value) {
+						    echo $array_nltk_php[$i][0]." is "; // the word
+						    echo $array_nltk_php[$i][1]."<br>"; // the pos
+						    //foreach($array_nltk_php[$i] as $j => $valuej){
+						    //	echo $array_nltk_php[$i][$j];
+						    //} 
+						    $pos=$array_nltk_php[$i][1];
+						    switch ($pos) {
+							    case "IN":
+							    case "TO":
+							        echo "preposition detected <br>";
+							        echo "suggestions: about, above, after, against, at, by, for, in, into, of, off, on, onto, over, to, toward, towards, up, upon, with, within, without <br><br>";
+							        break;
+							    case "DT":
+							        echo "determiner detected <br>";
+							        if (strtoupper($array_nltk_php[$i][0])=="A" || strtoupper($array_nltk_php[$i][0])=="AN" || strtoupper($array_nltk_php[$i][0])=="THE" ){
+							        	echo "suggesions: a, an, the<br>";
+							        }
+							        break;
+							    case "VB":
+							    case "VBD":
+							    case "VBG":
+							    case "VBN":
+							    case "VBP":
+							    case "VBZ":
+							    	echo "verb detected <br>";
+							    	echo "suggestions: ";
+							    	$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] .", person = 1');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_present_1= shell_exec($testexec);
+									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] .", person = 2');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_present_2= shell_exec($testexec);
+									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] .", person = 3');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_present_3= shell_exec($testexec);
+
+									$exeDirec ="\"import en; print en.verb.infinitive('". $array_nltk_php[$i][0] ."');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_infinitive= shell_exec($testexec);
+
+									$exeDirec ="\"import en; print en.verb.present_participle('". $array_nltk_php[$i][0] ."');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_present_participle= shell_exec($testexec);
+
+									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_past= shell_exec($testexec);
+
+									$exeDirec ="\"import en; print en.verb.past_participle('". $array_nltk_php[$i][0] ."');\"";
+							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+									$verb_past_participle= shell_exec($testexec);
+
+
+							    	echo $verb_present_1.' '.$verb_present_2.' '.$verb_present_3.' '.$verb_infinitive.' '.$verb_present_participle.' '.$verb_past.' '.$verb_past_participle.'<br><br>';
+							    default:
+							        //code to be executed if n is different from all labels;
+							    	break;
+							}
+
+						}
+
+
+
+
 						echo "<br><br>";
 						?>
 						<div id="demo"></div>
+						
 						<script>
 							var cars = <?php echo $array_nltk; ?>;
 
@@ -794,11 +862,12 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
 							for (i=0; i<cars.length; i++){
 								html += '<div><em>'+cars[i]+'</div>';
+
 							}
 							//console.log(html);
 							document.getElementById("demo").innerHTML = html;
 							//window.alert(html);
-						</script>
+						</script> 
 
 						<?php
 
