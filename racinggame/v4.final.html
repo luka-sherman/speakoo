@@ -113,7 +113,6 @@ var paused = false;
 //this is going to be replaced with what we get from php
 var exampleJson = '{ "task_ID" : 4, "sentence_string": "I want to talk", "action_words": [{"word_string": "want", "word_index" : 2 , "option_list" : ["want","wants","wanting","wanted"]},{"word_string": "to", "word_index" : 3, "option_list" : ["to","at","by","for"]},{"word_string": "talk", "word_index" : 4 , "option_list" : ["talk","talks","talking","talked"]}]}';
 
-
 var sentence = JSON.parse(exampleJson);
 var taskID = sentence.taskID;
 var fullSentence = sentence.sentence_string;
@@ -122,8 +121,14 @@ var fsarray = fullSentence.split(" ");
 var wordsArray = sentence.action_words;
 //keeps track of current word position in the sentence
 var currentWord = 0;
+var lowlimit = 0;
 var timeoutVar;
 function displayPopup() {
+  if(currentWord>=wordsArray.length){
+          clearTimeout(timeoutVar);
+          console.log("final result is : " + toReturn);
+          return;
+  }
     populatePopup();
     var popup = document.getElementById("myPopup");
     popup.classList.add("show");
@@ -131,10 +136,7 @@ function displayPopup() {
 }
 
 function populatePopup(){
-      if(currentWord>=wordsArray.length){
-              clearTimeout(timeoutVar);
-              return;
-      }
+
       var optionarray = wordsArray[currentWord].option_list;
       var optionLength = optionarray.length;
 
@@ -160,9 +162,6 @@ function populatePopup(){
     // radio button for the textbox?
     for(i = 0; i<optionLength;i++){
         toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
-        if(i == 0){
-          toDisplay+= ' checked = "checked"'
-        }
         toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> </br>';
 
       }
@@ -174,19 +173,37 @@ function populatePopup(){
       if(currentWord>=wordsArray.length){
               clearTimeout(timeoutVar);
       }
-      currentWord++;
 }
+var toReturn = "";
 
 function popDown(){
     document.getElementById("myPopup").classList.remove("show");
     paused = false;
-    if(currentWord>=wordsArray.length){
-            clearTimeout(timeoutVar);
-            return;
+    var lowlcopy = lowlimit;
+    for(j = lowlcopy; j<wordsArray[currentWord].word_index-1;j++){
+      toReturn+=fsarray[j] + " ";
     }
-    else{
-      timeoutVar = window.setTimeout(displayPopup,5000);
-  }
+
+    var optionarray = wordsArray[currentWord].option_list;
+    var optionLength = optionarray.length;
+
+    for(i = 0; i<optionarray.length;i++){
+
+      var str = "option"+i;
+      if(document.getElementById(str).checked == true){
+          toReturn+=document.getElementById(str).value + " ";
+          lowlimit = wordsArray[currentWord].word_index;
+          currentWord++;
+          timeoutVar = window.setTimeout(displayPopup,5000);
+          return;
+      }
+    }
+    toReturn += fsarray[currentWord];
+    lowlimit = wordsArray[currentWord].word_index;
+    console.log(toReturn);
+
+    currentWord++;
+    timeoutVar = window.setTimeout(displayPopup,5000);
 }
 </script>
   <script>
