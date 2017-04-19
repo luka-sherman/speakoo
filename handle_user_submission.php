@@ -63,7 +63,10 @@ if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 			} else {
 				echo "Error with task insertion: " . $sql . "<br>" . mysqli_error($conn);
 			}
-			header('Location: play_game.php');
+			$children = array();
+			$data = json_encode($children);
+			echo $data;
+			//header('Location: play_game_car.php');
 
 		} 
 		elseif ($correct_or_not_0=="no"){
@@ -95,9 +98,11 @@ if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 				
 				
 				
+				$children = array();
+				$data = json_encode($children);
+				echo $data;
 				
-				
-				header('Location: play_game.php');
+				//header('Location: play_game_car.php');
 			} else{
 				echo "need to make them fill corrected sentence up.";
 			}
