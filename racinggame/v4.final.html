@@ -162,6 +162,8 @@ function populatePopup(){
     document.getElementById("phrase").innerHTML = toDisplayPhrase;
 
     // radio button for the textbox?
+    var currrentSelection = "";
+
     for(i = 0; i<optionLength;i++){
       if(i==0) {
         toDisplay = toDisplay + '<input type = "radio" checked="checked" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
@@ -195,12 +197,14 @@ function populatePopup(){
     });
 
     $('input[name=answer]:checked', '#questionform').val(function() {
+    //$('#questionform input').on('change', function() {
+    console.log("checked!!!");
       var toDisplayPhrase2 = "";
       toDisplayPhrase2+=sentenceBefore;
       var boldWord = "";
-      for(j = 0; j<fsarray.length; j++){
-        if(j+1 == wordsArray[currentWord].word_index){
-          qstring+="<b>" + fsarray[j] + "</b> ";
+      for(k = 0; j<fsarray.length; k++){
+        if(k+1 == wordsArray[currentWord].word_index){
+          qstring+="<b>" + ($("#questionform input[type='radio']:checked").val()) + "</b> ";
           boldWord = fsarray[j];
         }
         else{
