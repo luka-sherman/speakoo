@@ -47,10 +47,10 @@ body          { font-family: Arial, Helvetica, sans-serif; }
 .popup .popuptext {
     visibility: hidden;
     width: 630px;
-    font-size: 24px;
+    font-size: 16px;
     background-color: #555;
     color: #fff;
-    text-align: center;
+    text-align: left;
     border-radius: 6px;
     padding: 8px 0;
     position: absolute;
@@ -59,6 +59,49 @@ body          { font-family: Arial, Helvetica, sans-serif; }
     bottom: 125%;
     left: 50%;
     margin-left: -315px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}
+
+.popup form,
+.popup button {
+  margin-left: 220px;
+  line-height: 30px;
+}
+
+[type='radio'] {
+  display: none;
+}
+.popup label,
+.popup input[type=text] {
+  padding:5px;
+  background-color: #aaaaaa;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.popup label:hover {
+  color: red;
+  background-color: white;
+}
+
+.popup input {
+}
+
+.popup input[type=radio]:checked + label,
+.popup input:focus {
+  color: green;
+  background-color: blue;
+  border: none;
+}
+
+.popup .sbefore {
+  margin-left: -220px;
 }
 
 /* Popup arrow */

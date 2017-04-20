@@ -5,6 +5,7 @@
   <title>Javascript Racer - v4 (final)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
   <link href="common.css" rel="stylesheet" type="text/css" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
 
 <body>
@@ -88,13 +89,8 @@
   <div class="popup">Click me to toggle the popup!
     <span class="popuptext" id="myPopup">
       <form id = "questionform">
-        <span id = "question">
-        <!-- This is a tester
-        <ol>
-          <li> item 1</li>
-          <li> item 2</li>
-        </ol> -->
-        </span>
+        <span id = "phrase"></span>
+        <span id = "question"></span>
       </form>
       <button onclick="popDown()"> Submit </button>
     </span>
@@ -140,39 +136,83 @@ function populatePopup(){
       var optionarray = wordsArray[currentWord].option_list;
       var optionLength = optionarray.length;
 
+    var toDisplayPhrase = "";
     var toDisplay = "";
     //generate question
     var origverb = wordsArray[currentWord].word_string;
 
-    var sentenceBefore = '<span class = "sbefore">I feel the need to talk</span></br>';
-    var sentenceAfter = '<span class = "safter">Please let me talk</span></br>';
-    toDisplay+=sentenceBefore;
+    var sentenceBefore = '<span class = "sbefore">This is the sentence that comes before.</span>';
+    var sentenceAfter = '<span class = "safter">This is the next sentence.</span></br>';
+    toDisplayPhrase+=sentenceBefore;
     var qstring = '<span name = "question"> ';
+    var boldWord = "";
+    for(j = 0; j<fsarray.length; j++){
+      if(j+1 == wordsArray[currentWord].word_index){
+        qstring+="<b>" + fsarray[j] + "</b> ";
+        boldWord = fsarray[j];
+      }
+      else{
+        qstring += fsarray[j] + " ";
+      }
+    }
+    qstring += '</span>';
+    toDisplayPhrase+=qstring;
+    toDisplayPhrase+=sentenceAfter;
+
+    document.getElementById("phrase").innerHTML = toDisplayPhrase;
+
+    // radio button for the textbox?
+    for(i = 0; i<optionLength;i++){
+      if(i==0) {
+        toDisplay = toDisplay + '<input type = "radio" checked="checked" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
+      }
+      else {
+        toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
+      }
+      toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> </br>';
+
+    }
+
+    toDisplay+='<input type = "radio" name = "answer" id="delete"><label for = "delete"> Delete ' + origverb + " </label> </br>"
+    toDisplay+='<input type = "radio" name = "answer" id="modifyRadio"><input type = "text" name = "answer" id="modify" placeholder="other">'
+    //toDisplay+='<input type = "text" name = "answer" id="modify" placeholder="other"></br>'
+    document.getElementById("question").innerHTML = toDisplay;
+    document.getElementById("option0").focus();
+    if(currentWord>=wordsArray.length){
+        clearTimeout(timeoutVar);
+    }
+
+    // treat "other" text box like radio button
+    $( "#modify" ).focus(function() {
+      radiobtn = document.getElementById("modifyRadio");
+      radiobtn.checked = true;
+    });
+
+    //switch text in sentence to whatever is selected
+    $( "input[type=radio]" ).focus(function() {
+      radiobtn = document.getElementById("modifyRadio");
+      radiobtn.checked = true;
+    });
+
+    $('input[name=answer]:checked', '#questionform').val(function() {
+      var toDisplayPhrase2 = "";
+      toDisplayPhrase2+=sentenceBefore;
+      var boldWord = "";
       for(j = 0; j<fsarray.length; j++){
         if(j+1 == wordsArray[currentWord].word_index){
           qstring+="<b>" + fsarray[j] + "</b> ";
+          boldWord = fsarray[j];
         }
         else{
           qstring += fsarray[j] + " ";
         }
-    }
+      }
       qstring += '</span>';
-    toDisplay+=qstring+"</br>";
-    toDisplay+=sentenceAfter;
-    // radio button for the textbox?
-    for(i = 0; i<optionLength;i++){
-        toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
-        toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> </br>';
+      toDisplayPhrase2+=qstring;
+      toDisplayPhrase2+=sentenceAfter;
 
-      }
-
-      toDisplay+='<input type = "radio" name = "answer" id="delete"><label for = "delete"> Delete ' + origverb + " </label> </br>"
-      toDisplay+='...Or type it yourself </br><input type = "text" name = "answer" id="modify"><label for = "modify"> </label> </br>'
-      document.getElementById("question").innerHTML = toDisplay;
-      document.getElementById("option0").focus();
-      if(currentWord>=wordsArray.length){
-              clearTimeout(timeoutVar);
-      }
+      document.getElementById("phrase").innerHTML = toDisplayPhrase2;
+    });
 }
 var toReturn = "";
 

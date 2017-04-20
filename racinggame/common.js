@@ -84,10 +84,10 @@ var Util = {
 //=========================================================================
 
 if (!window.requestAnimationFrame) { // http://paulirish.com/2011/requestanimationframe-for-smart-animating/
-  window.requestAnimationFrame = window.webkitRequestAnimationFrame || 
-                                 window.mozRequestAnimationFrame    || 
-                                 window.oRequestAnimationFrame      || 
-                                 window.msRequestAnimationFrame     || 
+  window.requestAnimationFrame = window.webkitRequestAnimationFrame ||
+                                 window.mozRequestAnimationFrame    ||
+                                 window.oRequestAnimationFrame      ||
+                                 window.msRequestAnimationFrame     ||
                                  function(callback, element) {
                                    window.setTimeout(callback, 1000 / 60);
                                  }
@@ -244,14 +244,14 @@ var Render = {
         l1 = Render.laneMarkerWidth(w1, lanes),
         l2 = Render.laneMarkerWidth(w2, lanes),
         lanew1, lanew2, lanex1, lanex2, lane;
-    
+
     ctx.fillStyle = color.grass;
     ctx.fillRect(0, y2, width, y1 - y2);
-    
+
     Render.polygon(ctx, x1-w1-r1, y1, x1-w1, y1, x2-w2, y2, x2-w2-r2, y2, color.rumble);
     Render.polygon(ctx, x1+w1+r1, y1, x1+w1, y1, x2+w2, y2, x2+w2+r2, y2, color.rumble);
     Render.polygon(ctx, x1-w1,    y1, x1+w1, y1, x2+w2, y2, x2-w2,    y2, color.road);
-    
+
     if (color.lane) {
       lanew1 = w1*2/lanes;
       lanew2 = w2*2/lanes;
@@ -260,7 +260,7 @@ var Render = {
       for(lane = 1 ; lane < lanes ; lanex1 += lanew1, lanex2 += lanew2, lane++)
         Render.polygon(ctx, lanex1 - l1/2, y1, lanex1 + l1/2, y1, lanex2 + l2/2, y2, lanex2 - l2/2, y2, color.lane);
     }
-    
+
     Render.fog(ctx, 0, y1, width, y2-y1, fog);
   },
 
@@ -278,7 +278,7 @@ var Render = {
     var sourceY = layer.y
     var sourceW = Math.min(imageW, layer.x+layer.w-sourceX);
     var sourceH = imageH;
-    
+
     var destX = 0;
     var destY = offset;
     var destW = Math.floor(width * (sourceW/imageW));
@@ -411,4 +411,3 @@ SPRITES.SCALE = 0.3 * (1/SPRITES.PLAYER_STRAIGHT.w) // the reference sprite widt
 SPRITES.BILLBOARDS = [SPRITES.BILLBOARD01, SPRITES.BILLBOARD02, SPRITES.BILLBOARD03, SPRITES.BILLBOARD04, SPRITES.BILLBOARD05, SPRITES.BILLBOARD06, SPRITES.BILLBOARD07, SPRITES.BILLBOARD08, SPRITES.BILLBOARD09];
 SPRITES.PLANTS     = [SPRITES.TREE1, SPRITES.TREE2, SPRITES.DEAD_TREE1, SPRITES.DEAD_TREE2, SPRITES.PALM_TREE, SPRITES.BUSH1, SPRITES.BUSH2, SPRITES.CACTUS, SPRITES.STUMP, SPRITES.BOULDER1, SPRITES.BOULDER2, SPRITES.BOULDER3];
 SPRITES.CARS       = [SPRITES.CAR01, SPRITES.CAR02, SPRITES.CAR03, SPRITES.CAR04, SPRITES.SEMI, SPRITES.TRUCK];
-
