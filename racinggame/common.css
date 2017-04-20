@@ -68,10 +68,13 @@ button:focus {
     outline: none;
 }
 
-.popup form,
+.popup form {
+  line-height: 30px;
+  margin-left: 220px;
+}
+
 .popup button {
   margin-left: 220px;
-  line-height: 30px;
 }
 
 [type='radio'] {
@@ -100,8 +103,8 @@ button:focus {
   border: none;
 }
 
-.popup .sbefore {
-  margin-left: -220px;
+.popup #phrase {
+  margin-left: -200px;
 }
 
 /* Popup arrow */

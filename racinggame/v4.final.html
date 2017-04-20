@@ -157,14 +157,14 @@ function populatePopup(){
       }
       if(j+1 == wordsArray[currentWord].word_index){
         qstring+="<b>" + fsarray[j] + "</b> ";
-        boldWord = "<b>" + fsarray[j] + "</b> ";
+        boldWord = fsarray[j];
         thereyet=1;
       }
       else{
         qstring += fsarray[j] + " ";
       }
       if (thereyet==0) {
-        beforeWord+="<b>" + fsarray[j] + "</b> ";
+        beforeWord+=fsarray[j];
       }
     }
     qstring += '</span>';
