@@ -164,7 +164,7 @@ function populatePopup(){
         qstring += fsarray[j] + " ";
       }
       if (thereyet==0) {
-        beforeWord+=fsarray[j];
+        beforeWord+=fsarray[j] + " ";
       }
     }
     qstring += '</span>';
@@ -229,9 +229,12 @@ function populatePopup(){
       console.log(newWord);
 
       var toDisplayPhrase2 = "";
-      toDisplayPhrase2+=beforeWord
+      toDisplayPhrase2+=beforeWord + " ";
       if (newWord == "delete") {
         newWord = "";
+      }
+      else{
+        newWord += " ";
       }
       toDisplayPhrase2+="<b>"+newWord+"</b> ";
       toDisplayPhrase2+=afterWord;
