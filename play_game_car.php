@@ -437,7 +437,10 @@ function displayResult(){
   resultVar+= "Bumps: -" + bumps * 5  + "pts</br>";
   resultVar+= "Agreement Points: 80pts</br>"; //not taken into account yet, just a dummy sentence
   resultVar+= "Total: " + currentPoint + "pts</br></span>";
-  resultVar+='  <button onclick="throw_to_server()">SUBMIT</button>';
+  resultVar+='  <button id="final_submit_button" onclick="throw_to_server()">SUBMIT</button>';
+
+
+
   document.getElementById("myPopup").innerHTML = resultVar;
   var popup = document.getElementById("myPopup");
   popup.classList.add("show");
@@ -603,6 +606,8 @@ function popDown(){
     timeoutVar = window.setTimeout(displayPopup,10000);
 }
 function throw_to_server(){
+	document.getElementById("final_submit_button").innerHTML="Please Wait...";
+	document.getElementById("final_submit_button").disabled=true;
     var lowlcopy = lowlimit;
     for(j = lowlcopy; j<fsarray.length;j++){
       toReturn+=fsarray[j] + " ";
