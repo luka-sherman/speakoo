@@ -125,7 +125,6 @@ var timeoutVar;
 function displayPopup() {
   if(currentWord>=wordsArray.length){
           clearTimeout(timeoutVar);
-          console.log("final result is : " + toReturn);
           console.log("game over");
           displayResult();
           return;
@@ -139,12 +138,12 @@ function displayResult(){
   var resultVar = "";
   currentPoint+=100;
   updateHud('current_Point', currentPoint);
-  resultVar+= "Summary</br>";
+  resultVar+= '<span id="resultsummary">Summary</br>';
   resultVar+= "Lap Completed: 100 pts</br>";
   resultVar+= "Bumps: -" + bumps * 5  + "pts</br>";
   resultVar+= "Agreement Points: 80pts</br>"; //not taken into account yet, just a dummy sentence
-  resultVar+= "Total: " + currentPoint + "pts</br>";
-  resultVar+='  <button onclick="popDown()">SUBMIT</button>';
+  resultVar+= "Total: " + currentPoint + "pts</br></span>";
+  resultVar+='  <button onclick="throw_to_server()">SUBMIT</button>';
   document.getElementById("myPopup").innerHTML = resultVar;
   var popup = document.getElementById("myPopup");
   popup.classList.add("show");
@@ -264,7 +263,6 @@ function populatePopup(){
     });
 }
 var toReturn = "";
-
 function popDown(){
     document.getElementById("myPopup").classList.remove("show");
     paused = false;
@@ -284,15 +282,34 @@ function popDown(){
           lowlimit = wordsArray[currentWord].word_index;
           currentWord++;
           timeoutVar = window.setTimeout(displayPopup,10000);
+          console.log(toReturn + " is the current toReturn");
           return;
       }
     }
+    if(document.getElementById("delete").checked==true){
+      console.log(toReturn + " is the current toReturn ");
+      timeoutVar = window.setTimeout(displayPopup,10000);
+      lowlimit = wordsArray[currentWord].word_index;
+      currentWord++;
+      return;
+    }
+    else if(document.getElementById("modifyRadio").checked == true){
+        toReturn += document.getElementById("modify").value + " ";
+        console.log(toReturn + " is the current toReturn ");
+        timeoutVar = window.setTimeout(displayPopup,10000);
+        lowlimit = wordsArray[currentWord].word_index;
+        currentWord++;
+        return;
+    }
     toReturn += fsarray[currentWord];
     lowlimit = wordsArray[currentWord].word_index;
-    console.log(toReturn);
+    console.log(toReturn + " is the current toReturn");
 
     currentWord++;
     timeoutVar = window.setTimeout(displayPopup,10000);
+}
+function throw_to_server(){
+  console.log("final result is : " + toReturn);
 }
 </script>
   <script>

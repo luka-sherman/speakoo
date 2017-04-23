@@ -74,6 +74,11 @@ button:focus {
   margin-left: 220px;
   opacity: 1;
 }
+.popup #resultsummary {
+  line-height: 30px;
+  margin-left: 40%;
+  opacity: 1;
+}
 
 .popup button {
   margin-left: 220px;
