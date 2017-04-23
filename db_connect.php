@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "mysql";
-$dbname = "speakoo_crowd_grammar";
+$dbname = "speakoo_game_grammar_multiplayer";
 
 // Create connection
 $conn = mysqli_connect($servername, $username, $password, $dbname);

@@ -1,4 +1,4 @@
-<?php require_once 'db_connect.php'?>
+<?php require_once 'db_connect.php';?>
 <?php 
 if ( isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone_number']) && isset($_POST['dob']) && isset($_POST['password']) ) {
 	$name=htmlentities($_POST['name']);
@@ -25,8 +25,8 @@ if ( isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone_numb
 			$format_and_salt = "$2y$10$".$salt;
 			$hashed_password = crypt($password, $format_and_salt);
 			
-			$sql = "INSERT INTO user_profiles (name, email, phone_number, dob, password)
-			VALUES ('{$name}', '{$email}', '{$phone_number}', '{$dob}', '{$hashed_password}' )";
+			$sql = "INSERT INTO user_profiles (name, email, phone_number, dob, password, score, level)
+			VALUES ('{$name}', '{$email}', '{$phone_number}', '{$dob}', '{$hashed_password}', 0, 1 )";
 
 			if (mysqli_query($conn, $sql)) { //query successful 
 				$last_id = mysqli_insert_id($conn);
@@ -35,6 +35,7 @@ if ( isset($_POST['name']) && isset($_POST['email']) && isset($_POST['phone_numb
 			} else { // error when running mysql qery
 				echo "Error: " . $sql . "<br>" . mysqli_error($conn);
 			}
+			header('Location: index.php');
 		} else { //email duplicate 
 			echo "email exists";
 		}

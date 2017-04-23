@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require_once 'db_connect.php'?>
+<?php require_once 'db_connect.php';?>
 <?php 
 if ( !isset($_SESSION["name"]) ){ //session not found, user not logged in
 	if ( isset($_POST['email']) && isset($_POST['password']) ) {

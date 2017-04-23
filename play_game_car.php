@@ -1,7 +1,7 @@
 <?php error_reporting(E_ALL);
 ini_set('display_errors',1);
 session_start(); ?>
-<?php require_once 'db_connect.php'?>
+<?php require_once 'db_connect.php';?>
 
 <?php
 if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the page
@@ -31,6 +31,44 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
     <body>
 
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+						<span class="sr-only">Toggle navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+                    <a class="navbar-brand" href="profile.php">Speakoo</a>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <!--<li class="active dropdown">
+				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Profile <span class="caret"></span></a>
+				  <ul class="dropdown-menu">
+					<li><a href="profile.php">Videos</a></li>
+					<li><a href="view_information.php">Account Information</a></li>
+
+
+				  </ul>
+				</li>
+				<li><a href="newsfeed.php">Newsfeed</a></li>
+				<li><a href="recordvideo.php">Record a new video</a></li>-->
+                        <li><a href="play_game_car.php">Play Game</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="logout.php">Logout</a></li>
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
 
 
 
@@ -44,17 +82,34 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 			$result = mysqli_query($conn, $sql);
 
 			if (mysqli_num_rows($result) > 0) {
-				// output data of each row
+				// output data of each row in task table
 				$flag_row_accessed=0;
 				while($row = mysqli_fetch_assoc($result)) {
+					$sql2 = "SELECT task_id, resolving_user_id FROM task_table WHERE sentence_id={$row["sentence_id"]} AND resolved_flag=1";
+					$result_task_resolved_flag = mysqli_query($conn, $sql2);
+					if (mysqli_num_rows($result_task_resolved_flag) > 0) {
+						while($row_resolved_task = mysqli_fetch_assoc($result_task_resolved_flag)) {
+							//echo "Task ".$row_resolved_task["task_id"]. " has been resolved <br>";
+							if($row_resolved_task["resolving_user_id"]==$_SESSION['user_id']){
+								//echo "User ".$row_resolved_task["resolving_user_id"]." has resolved it<br>";
+								$user_go_ahead=0;
+							} else {
+								//echo "Someone else ".$row_resolved_task["resolving_user_id"]." has resolved it<br>";
+								$user_go_ahead=1;
+							}
+						}
+					} else {
+						//echo "This sentence has not been resolved<br><br>";
+						$user_go_ahead=1;
+					}
 					
-					if(!$row["resolved_flag"] ){ //later on make sure this guy has not touched this sentence before, this is the condition for finding the task to deliver in the games page 
+					if(!$row["resolved_flag"] && $user_go_ahead==1){ //later on make sure this guy has not touched this sentence before, this is the condition for finding the task to deliver in the games page .... update: made sure by $user_go_ahead
 						//echo "task found for this user";
 						//echo $row["task_id"];
 						
 						//echo "Is the highlighted sentence below grammatically accurate?<br><br>";
 
-						echo $row["current_string"];
+						//echo $row["current_string"];
 
 						$exeDir ="\"import nltk; import json; text = nltk.word_tokenize('".$row["current_string"]."');print json.dumps(nltk.pos_tag(text))\"";
 						
@@ -65,6 +120,24 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
 						
 						$json_sentence = '{ "task_ID": ' . $row["task_id"]. ', '; //task id
+
+						$sql3 = "SELECT score, level FROM user_profiles WHERE user_id={$_SESSION['user_id']}";
+						$result_user_score = mysqli_query($conn, $sql3);
+						if (mysqli_num_rows($result_user_score) > 0) {
+						    while($row_user_score = mysqli_fetch_assoc($result_user_score)) {
+						        
+						        $json_sentence = $json_sentence . '"score": '.$row_user_score["score"].', '; // score
+						        $json_sentence = $json_sentence . '"level": '.$row_user_score["level"].', '; // score
+						    }
+						} else {
+						    echo "0 results";
+						}
+
+
+
+
+
+
 						$json_sentence = $json_sentence . '"sentence_string": "' . $row["current_string"] . '" ,'; // sentence_string
 						$json_sentence = $json_sentence . '"action_words" : [ ';
 
@@ -83,7 +156,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	$json_sentence = $json_sentence . '{';
 							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
 							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-							    	$json_sentence = $json_sentence . '"option_list": ["about", "above", "after", "against", "at", "by", "for", "in", "into", "of", "off", "on", "onto", "over", "to", "toward", "towards", "up", "upon", "with", "within", "without"]';
+							    	$json_sentence = $json_sentence . '"option_list": ["to", "for", "about", "at", "by", "in", "of", "on"]';
 							    	$json_sentence = $json_sentence . '},';
 							        break;
 							    case "DT":
@@ -324,7 +397,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
                 var paused = false;
 
                 //this is going to be replaced with what we get from php
-                var exampleJson = '<?php echo $json_sentence; ?>' ;
+                var exampleJson = '<?php echo $json_sentence; ?>';
                 //var exampleJson = '{ "task_ID" : 4, "sentence_string": "I want to talk", "action_words": [{"word_string": "want", "word_index" : 2 , "option_list" : ["want","wants","wanting","wanted"]},{"word_string": "to", "word_index" : 3, "option_list" : ["to","at","by","for"]},{"word_string": "talk", "word_index" : 4 , "option_list" : ["talk","talks","talking","talked"]}]}';
 
 
@@ -424,12 +497,12 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
                             type: "POST",
                             dataType: "json",
                             success: function() {
-							    //window.location.reload(true);
-							    //window.location.href = "play_game_car.php"; 
-							},
-                            error: function() { 
-                            	window.location.reload(true);
-							    window.location.href = "play_game_car.php"; 
+                                //window.location.reload(true);
+                                //window.location.href = "play_game_car.php"; 
+                            },
+                            error: function() {
+                                window.location.reload(true);
+                                window.location.href = "play_game_car.php";
                             }
                         });
 

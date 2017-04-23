@@ -1,15 +1,6 @@
+<?php require_once 'db_connect.php';?>
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "mysql";
-$dbname = "speakoo_crowd_grammar";
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 /*
 //insert test: inserted two entries successfully
@@ -145,5 +136,7 @@ if (mysqli_query($conn, $sql) && mysqli_affected_rows($conn) == 1) {
 
 
 
-mysqli_close($conn);
+if (isset($conn)){
+  mysqli_close($conn);
+}
 ?>

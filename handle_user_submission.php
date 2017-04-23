@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require_once 'db_connect.php'?>
+<?php require_once 'db_connect.php';?>
 <?php 
 if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 	$correct_or_not_0=$_POST['correct_or_not_0'];
@@ -66,7 +66,7 @@ if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 			$children = array();
 			$data = json_encode($children);
 			echo $data;
-			//header('Location: play_game_car.php');
+			header('Location: play_game.php');
 
 		} 
 		elseif ($correct_or_not_0=="no"){
@@ -102,7 +102,7 @@ if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 				$data = json_encode($children);
 				echo $data;
 				
-				//header('Location: play_game_car.php');
+				header('Location: play_game.php');
 			} else{
 				echo "need to make them fill corrected sentence up.";
 			}
