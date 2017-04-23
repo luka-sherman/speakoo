@@ -14,7 +14,7 @@ echo "Connected successfully";
 
 
 // Create database
-$sql = "CREATE DATABASE speakoo_crowd_grammar";
+$sql = "CREATE DATABASE speakoo_game_grammar_multiplayer";
 if (mysqli_query($conn, $sql)) {
     echo "Database created successfully";
 } else {

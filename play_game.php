@@ -1,5 +1,5 @@
 <?php session_start(); ?>
-<?php require_once 'db_connect.php'?>
+<?php require_once 'db_connect.php';?>
 
 <?php
 if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the page
@@ -71,11 +71,31 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 			$result = mysqli_query($conn, $sql);
 
 			if (mysqli_num_rows($result) > 0) {
-				// output data of each row
+				// output data of each row of task
 				$flag_row_accessed=0;
 				while($row = mysqli_fetch_assoc($result)) {
+
+					$sql2 = "SELECT task_id, resolving_user_id FROM task_table WHERE sentence_id={$row["sentence_id"]} AND resolved_flag=1";
+					$result_task_resolved_flag = mysqli_query($conn, $sql2);
+					if (mysqli_num_rows($result_task_resolved_flag) > 0) {
+						
+						while($row_resolved_task = mysqli_fetch_assoc($result_task_resolved_flag)) {
+							//echo "Task ".$row_resolved_task["task_id"]. " has been resolved <br>";
+							if($row_resolved_task["resolving_user_id"]==$_SESSION['user_id']){
+								//echo "User ".$row_resolved_task["resolving_user_id"]." has resolved it<br>";
+								$user_go_ahead=0;
+							} else {
+								//echo "Someone else ".$row_resolved_task["resolving_user_id"]." has resolved it<br>";
+								$user_go_ahead=1;
+							}
+
+						}
+					} else {
+						//echo "This sentence has not been resolved<br><br>";
+						$user_go_ahead=1;
+					}
 					
-					if(!$row["resolved_flag"] ){ //later on make sure this guy has not touched this sentence before, this is the condition for finding the task to deliver in the games page 
+					if(!$row["resolved_flag"] && $user_go_ahead==1){ //later on make sure this guy has not touched this sentence before, this is the condition for finding the task to deliver in the games page 
 						//echo "task found for this user";
 						//echo $row["task_id"];
 						

@@ -63,31 +63,42 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 		</nav>
 
 		<div class="container-fluid">
-			<h2>Welcome, <?php echo $_SESSION["name"];?>, to Speakoo!</h2>
-			<div class="row">
-				<div class="col-md-8">User Notifications</div>
-				<div class="col-md-4">
-					<h3>Leaderboard</h3>
-					<?php 
-					echo "User ID -- Name -- Score -- Level<br>";
-					$sql = "SELECT user_id, name, score, level FROM user_profiles";
+			<!--<h2>Welcome, <?php //echo $_SESSION["name"];?>, to Speakoo!</h2>-->
+			<h3>Admin Area</h3>
+			<?php
+			$sql = "SELECT doc_id,doc_name, number_of_sentences FROM doc_table";
+			$result = mysqli_query($conn, $sql);
 
-					$result = mysqli_query($conn, $sql);
-
-					if (mysqli_num_rows($result) > 0) {
-					    // output data of each row
-					    while($row = mysqli_fetch_assoc($result)) {
-
-					        echo $row["user_id"]. " " . $row["name"]. " " .$row["score"]. " " . $row["points"]. " ". $row["level"].  "<br>";
-						   //echo "video_id: " . $row["video_id"]. " <br>user id: " . $row["comment_text"]. " <br>video_name_datakey: " . $row["grammar_rating"]. "<br><br>";
-					    }
+			if (mysqli_num_rows($result) > 0) {
+				// output data of each row
+				while($row_doc = mysqli_fetch_assoc($result)) {
+					$sql = "SELECT sentence_id, sentence_string, sentence_latest_string FROM sentence_table WHERE doc_id={$row_doc["doc_id"]}";
+					$result2 = mysqli_query($conn, $sql);
+					$original="";
+					$corrected="";
+					if (mysqli_num_rows($result2) > 0) {
+						// output data of each row
+						
+						while($row_paste_sentence = mysqli_fetch_assoc($result2)) {
+							//echo $row_paste_sentence["sentence_id"]." ";
+							//echo $row_paste_sentence["sentence_string"]."<br>";
+							$original= $original.$row_paste_sentence["sentence_string"].". ";
+							$corrected= $corrected.$row_paste_sentence["sentence_latest_string"].". ";
+						}
+						echo "<b>Original Transcript:</b><br><br>".$original;
+						echo "<br><br><b>Corrected Transcript:</b><br><br>".$corrected;
+						
 					} else {
-					    echo "0 results";
+						//echo "0 results";
 					}
-
-					?>    
-				</div>
-			</div>
+					
+					
+					
+				}
+			} else {
+				echo "0 results";
+			}
+			?>
 			
 		</div> <!--container-fluid ends-->	
 		
