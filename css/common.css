@@ -74,9 +74,15 @@ button:focus {
   margin-left: 220px;
   opacity: 1;
 }
+.popup #resultsummary {
+  line-height: 30px;
+  margin-left: 40%;
+  opacity: 1;
+}
 
 .popup button {
   margin-left: 220px;
+  color:black;
 }
 
 [type='radio'] {
@@ -86,10 +92,13 @@ button:focus {
 .popup input[type=text] {
   min-width: 8em;
   padding:5px;
+  text-align: center;
   background-color: #aaaaaa;
   border-radius: .2em;
   box-sizing: border-box;
   opacity: 1;
+  display: inline; 
+  font-weight: 100; 
 }
 
 .optionLabel {
@@ -159,4 +168,12 @@ span#phrase {
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:.8 ;}
+}
+
+
+label {
+     display: inline; 
+     max-width: 100%; 
+     margin-bottom: 2px; 
+     font-weight: 100; 
 }

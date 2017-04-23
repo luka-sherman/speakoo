@@ -24,6 +24,13 @@ if (mysqli_query($conn, $sql)) {
 }
 
 
+$sql = "UPDATE user_profiles SET score=0,level=1";
+if (mysqli_query($conn, $sql)) {
+  //echo "Record updated successfully";
+} else {
+  echo "score/level update failed: " . mysqli_error($conn);
+}
+
 
 
 $sql = "DROP TABLE IF EXISTS doc_table";
