@@ -52,7 +52,8 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 				</li>
 				<li><a href="newsfeed.php">Newsfeed</a></li>
 				<li><a href="recordvideo.php">Record a new video</a></li>-->
-				<li><a href="play_game.php">Play Game</a></li>
+				<li><a href="play_game.php">Play Game Control</a></li>
+                <li><a href="play_game_car.php">Play Game Treatment</a></li>
 			  </ul>
 			  
 			  <ul class="nav navbar-nav navbar-right">

@@ -15,6 +15,21 @@ if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 		} else {
 			echo "task update failed: " . mysqli_error($conn);
 		}
+
+		if ( isset($_POST['pass_score']) && isset($_POST['pass_level']) ) {
+			$pass_score=$_POST['pass_score'];
+			$pass_level=$_POST['pass_level'];
+
+			$sql = "UPDATE user_profiles SET score={$pass_score},level={$pass_level} WHERE user_id= {$_SESSION['user_id']}";
+			if (mysqli_query($conn, $sql)) {
+				//echo "Record updated successfully";
+			} else {
+				echo "score/level update failed: " . mysqli_error($conn);
+			}
+		} else{
+			echo "score or level not set";
+		}
+		
 		
 		
 		//pull out the task in question, we'll need to create a new task based on it
