@@ -73,6 +73,7 @@
     <div id="hud">
       <span id="speed"            class="hud"><span id="speed_value" class="value">0</span> mph</span>
       <span id="current_lap_time" class="hud">Time: <span id="current_lap_time_value" class="value">0.0</span></span>
+      <span id="current_Point" class="hud">Point: <span id="current_Point_value" class="value">100</span></span>
       <span id="last_lap_time"    class="hud">Last Lap: <span id="last_lap_time_value" class="value">0.0</span></span>
       <span id="fast_lap_time"    class="hud">Fastest Lap: <span id="fast_lap_time_value" class="value">0.0</span></span>
     </div>
@@ -265,7 +266,7 @@ function popDown(){
           toReturn+=document.getElementById(str).value + " ";
           lowlimit = wordsArray[currentWord].word_index;
           currentWord++;
-          timeoutVar = window.setTimeout(displayPopup,5000);
+          timeoutVar = window.setTimeout(displayPopup,10000);
           return;
       }
     }
@@ -274,13 +275,13 @@ function popDown(){
     console.log(toReturn);
 
     currentWord++;
-    timeoutVar = window.setTimeout(displayPopup,5000);
+    timeoutVar = window.setTimeout(displayPopup,10000);
 }
 </script>
   <script>
     //put this line in the function that takes care of "submit" button in the popup
 
-    timeoutVar = window.setTimeout(displayPopup,5000);
+    timeoutVar = window.setTimeout(displayPopup,10000);
 
     var fps            = 60;                      // how many 'update' frames per second
     var step           = 1/fps;                   // how long is each frame (in seconds)
@@ -331,9 +332,14 @@ function popDown(){
     var keyFaster      = false;
     var keySlower      = false;
 
+
+    var currentPoint = 100;
+    var bumps = 0;
+
     var hud = {
       speed:            { value: null, dom: Dom.get('speed_value')            },
       current_lap_time: { value: null, dom: Dom.get('current_lap_time_value') },
+      current_Point: {value: null, dom: Dom.get('current_Point_value')},
       last_lap_time:    { value: null, dom: Dom.get('last_lap_time_value')    },
       fast_lap_time:    { value: null, dom: Dom.get('fast_lap_time_value')    }
     }
@@ -353,6 +359,7 @@ function popDown(){
                   updateHud('fast_lap_time', formatTime(lastLapTime));
                   Dom.addClassName('fast_lap_time', 'fastest');
                   Dom.addClassName('last_lap_time', 'fastest');
+//                  Dom.addClassName('current_Point', 'currentPoint');
                 }
                 else {
                   Dom.removeClassName('fast_lap_time', 'fastest');
@@ -418,6 +425,10 @@ function popDown(){
           if (Util.overlap(playerX, playerW, car.offset, carW, 0.8)) {
             speed    = car.speed * (car.speed/speed);
             position = Util.increase(car.z, -playerZ, trackLength);
+            currentPoint-=5;
+            bumps++;
+            updateHud('current_Point', currentPoint);
+            console.log("this happened and current POint is: " + currentPoint);
             break;
           }
         }
@@ -818,11 +829,13 @@ function popDown(){
         sprites    = images[1];
         reset();
         Dom.storage.fast_lap_time = Dom.storage.fast_lap_time || 180;
+        Dom.storage.current_Point = currentPoint;
         updateHud('fast_lap_time', formatTime(Util.toFloat(Dom.storage.fast_lap_time)));
       }
     });
 
     function reset(options) {
+      console.log("this is called and option is : " + options);
       options       = options || {};
       canvas.width  = width  = Util.toInt(options.width,          width);
       canvas.height = height = Util.toInt(options.height,         height);
