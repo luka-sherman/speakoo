@@ -94,7 +94,8 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						    <th>Level</th>
 						  </tr>
 					<?php 
-					$sql = "SELECT user_id, name, score, level FROM user_profiles";
+					$sql = "SELECT user_id, name, score, level FROM user_profiles ORDER BY score DESC";
+
 
 					$result = mysqli_query($conn, $sql);
 
