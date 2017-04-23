@@ -309,6 +309,10 @@ function popDown(){
     timeoutVar = window.setTimeout(displayPopup,10000);
 }
 function throw_to_server(){
+  var lowlcopy = lowlimit;
+  for(j = lowlcopy; j<fsarray.length;j++){
+    toReturn+=fsarray[j] + " ";
+  }
   console.log("final result is : " + toReturn);
 }
 </script>
