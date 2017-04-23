@@ -137,11 +137,13 @@ function displayPopup() {
 }
 function displayResult(){
   var resultVar = "";
+  currentPoint+=100;
+  updateHud('current_Point', currentPoint);
   resultVar+= "Summary</br>";
   resultVar+= "Lap Completed: 100 pts</br>";
-  resultVar+= "Bumps: -" + bumps * 5  + "</br>";
-  resultVar+= "Agreement Points: 80pts";
-  resultVar+= "Total: " + currentPoint + "</br>";
+  resultVar+= "Bumps: -" + bumps * 5  + "pts</br>";
+  resultVar+= "Agreement Points: 80pts</br>"; //not taken into account yet, just a dummy sentence
+  resultVar+= "Total: " + currentPoint + "pts</br>";
   resultVar+='  <button onclick="popDown()">SUBMIT</button>';
   document.getElementById("myPopup").innerHTML = resultVar;
   var popup = document.getElementById("myPopup");
