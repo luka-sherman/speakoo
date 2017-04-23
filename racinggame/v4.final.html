@@ -109,12 +109,13 @@
 var paused = false;
 
 //this is going to be replaced with what we get from php
-var exampleJson = '{ "task_ID" : 4, "sentence_string": "I want to talk", "action_words": [{"word_string": "want", "word_index" : 2 , "option_list" : ["want","wants","wanting","wanted"]},{"word_string": "to", "word_index" : 3, "option_list" : ["to","at","by","for"]},{"word_string": "talk", "word_index" : 4 , "option_list" : ["talk","talks","talking","talked"]}]}';
+var exampleJson = '{ "task_ID" : 4, "score": 300, "sentence_string": "I want to talk", "action_words": [{"word_string": "want", "word_index" : 2 , "option_list" : ["want","wants","wanting","wanted"]},{"word_string": "to", "word_index" : 3, "option_list" : ["to","at","by","for"]},{"word_string": "talk", "word_index" : 4 , "option_list" : ["talk","talks","talking","talked"]}]}';
 
 var sentence = JSON.parse(exampleJson);
 var taskID = sentence.taskID;
 var fullSentence = sentence.sentence_string;
 var fsarray = fullSentence.split(" ");
+var prevscore = sentence.score;
 
 var wordsArray = sentence.action_words;
 //keeps track of current word position in the sentence
@@ -125,6 +126,8 @@ function displayPopup() {
   if(currentWord>=wordsArray.length){
           clearTimeout(timeoutVar);
           console.log("final result is : " + toReturn);
+          console.log("game over");
+          displayResult();
           return;
   }
     populatePopup();
@@ -132,7 +135,19 @@ function displayPopup() {
     popup.classList.add("show");
     paused = true;
 }
-
+function displayResult(){
+  var resultVar = "";
+  resultVar+= "Summary</br>";
+  resultVar+= "Lap Completed: 100 pts</br>";
+  resultVar+= "Bumps: -" + bumps * 5  + "</br>";
+  resultVar+= "Agreement Points: 80pts";
+  resultVar+= "Total: " + currentPoint + "</br>";
+  resultVar+='  <button onclick="popDown()">SUBMIT</button>';
+  document.getElementById("myPopup").innerHTML = resultVar;
+  var popup = document.getElementById("myPopup");
+  popup.classList.add("show");
+  paused = true;
+}
 function populatePopup(){
 
     var optionarray = wordsArray[currentWord].option_list;
@@ -333,7 +348,7 @@ function popDown(){
     var keySlower      = false;
 
 
-    var currentPoint = 100;
+    var currentPoint = prevscore;
     var bumps = 0;
 
     var hud = {
@@ -830,6 +845,7 @@ function popDown(){
         reset();
         Dom.storage.fast_lap_time = Dom.storage.fast_lap_time || 180;
         Dom.storage.current_Point = currentPoint;
+        document.getElementById("current_Point_value").innerHTML = currentPoint;
         updateHud('fast_lap_time', formatTime(Util.toFloat(Dom.storage.fast_lap_time)));
       }
     });
