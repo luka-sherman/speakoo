@@ -488,12 +488,16 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
                             var $correct_or_not_0 = "no";
                         }
                         console.log($correct_or_not_0);
+                        $updated_score=300; // replace later
+                        $updated_level=2; // replace later
                         $.ajax({
                             url: 'handle_user_submission.php',
                             data: {
                                 corrected_sentence_0: $corrected_sentence_0,
                                 pass_task_id: $pass_task_id,
-                                correct_or_not_0: $correct_or_not_0
+                                correct_or_not_0: $correct_or_not_0,
+                                pass_score: $updated_score,
+                                pass_level: $updated_level
                             },
                             type: "POST",
                             dataType: "json",

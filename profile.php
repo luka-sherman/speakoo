@@ -23,6 +23,23 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.js"></script>
         <script src="js/bootstrap-rating-input.min.js" type="text/javascript"></script>
+        <style>
+			table {
+			    font-family: arial, sans-serif;
+			    border-collapse: collapse;
+			    width: 100%;
+			}
+
+			td, th {
+			    border: 1px solid #dddddd;
+			    text-align: left;
+			    padding: 8px;
+			}
+
+			tr:nth-child(even) {
+			    background-color: #dddddd;
+			}
+		</style>
     </head>
 	<body>
 		<nav class="navbar navbar-inverse navbar-fixed-top">
@@ -69,8 +86,14 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 				<div class="col-md-8">User Notifications</div>
 				<div class="col-md-4">
 					<h3>Leaderboard</h3>
+					<table>
+						  <tr>
+						    <th>User ID</th>
+						    <th>Name</th>
+						    <th>Score</th>
+						    <th>Level</th>
+						  </tr>
 					<?php 
-					echo "User ID -- Name -- Score -- Level<br>";
 					$sql = "SELECT user_id, name, score, level FROM user_profiles";
 
 					$result = mysqli_query($conn, $sql);
@@ -78,15 +101,19 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 					if (mysqli_num_rows($result) > 0) {
 					    // output data of each row
 					    while($row = mysqli_fetch_assoc($result)) {
-
-					        echo $row["user_id"]. " " . $row["name"]. " " .$row["score"]. " " . $row["points"]. " ". $row["level"].  "<br>";
-						   //echo "video_id: " . $row["video_id"]. " <br>user id: " . $row["comment_text"]. " <br>video_name_datakey: " . $row["grammar_rating"]. "<br><br>";
+					    	echo "<tr>";
+					    	echo "<td>".$row["user_id"]."</td>";
+					    	echo "<td>".$row["name"]."</td>";
+					    	echo "<td>".$row["score"]."</td>";
+					    	echo "<td>".$row["level"]."</td>";
+					        echo "</tr>";
 					    }
 					} else {
 					    echo "0 results";
 					}
 
 					?>    
+					</table>
 				</div>
 			</div>
 			
