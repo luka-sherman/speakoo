@@ -3,7 +3,7 @@
 /* common styles used for v1 through v4 */
 /****************************************/
 
-body          { font-family: Arial, Helvetica, sans-serif; }
+body          { font-family: 'Roboto', sans-serif; }
 #stats        { border: 2px solid black; }
 #controls     { width: 28em; float: left; padding: 1em; font-size: 0.7em; }
 #controls th  { text-align: right; vertical-align: middle; }
@@ -47,8 +47,8 @@ body          { font-family: Arial, Helvetica, sans-serif; }
 .popup .popuptext {
     visibility: hidden;
     width: 630px;
-    font-size: 16px;
-    background-color: #555;
+    font-size: .8em;
+    background-color: rgba(85,85,85,.8);;
     color: #fff;
     text-align: left;
     border-radius: 6px;
@@ -71,6 +71,7 @@ button:focus {
 .popup form {
   line-height: 30px;
   margin-left: 220px;
+  opacity: 1;
 }
 
 .popup button {
@@ -82,29 +83,43 @@ button:focus {
 }
 .popup label,
 .popup input[type=text] {
+  min-width: 8em;
   padding:5px;
   background-color: #aaaaaa;
-  border-radius: 5px;
+  border-radius: .2em;
   box-sizing: border-box;
+  opacity: 1;
+}
+
+.optionLabel {
+  width:8em;
 }
 
 .popup label:hover {
-  color: red;
-  background-color: white;
-}
-
-.popup input {
-}
-
-.popup input[type=radio]:checked + label,
-.popup input:focus {
-  color: green;
-  background-color: blue;
-  border: none;
+  background-color: #5b5b5b;
 }
 
 .popup #phrase {
   margin-left: -200px;
+}
+
+.popup input[type=radio] {
+  width:10em;
+}
+
+span#phrase {
+  background-color: #555;
+  opacity: 1;
+  padding:10px;
+  border-radius: 5px;
+  width: 600px;
+}
+
+.popup input[type=radio]:checked + label,
+.popup input:focus {
+  color: white;
+  background-color: black;
+  border: none;
 }
 
 /* Popup arrow */
@@ -122,8 +137,8 @@ button:focus {
 /* Toggle this class - hide and show the popup */
 .popup .show {
     visibility: visible;
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
+    -webkit-animation: fadeIn .5s;
+    animation: fadeIn .5s;
 }
 
 .sbefore{
@@ -137,10 +152,10 @@ button:focus {
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
     from {opacity: 0;}
-    to {opacity: 1;}
+    to {opacity: .8;}
 }
 
 @keyframes fadeIn {
     from {opacity: 0;}
-    to {opacity:1 ;}
+    to {opacity:.8 ;}
 }

@@ -4,6 +4,7 @@
 <head>
   <title>Javascript Racer - v4 (final)</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
   <link href="common.css" rel="stylesheet" type="text/css" />
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 </head>
@@ -92,7 +93,7 @@
         <span id = "phrase"></span>
         <span id = "question"></span>
       </form>
-      <button onclick="popDown()"> Submit </button>
+      <button onclick="popDown()">SUBMIT</button>
     </span>
   </div>
   <script src="stats.js"></script>
@@ -167,8 +168,10 @@ function populatePopup(){
         beforeWord+=fsarray[j] + " ";
       }
     }
-    qstring += '</span>';
-    afterWord += '</span>';
+    qstring = qstring.slice(0,-1);
+    qstring += '. </span>';
+    afterWord = afterWord.slice(0, -1);
+    afterWord += '. </span>';
     toDisplayPhrase+=qstring;
     toDisplayPhrase+=sentenceAfter;
     afterWord+=sentenceAfter;
@@ -188,7 +191,7 @@ function populatePopup(){
       else {
         toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
       }
-      toDisplay+='> <label for="option'+i+'">' + optionarray[i] + '</label> </br>';
+      toDisplay+='> <label for="option'+i+'" class="optionLabel">' + optionarray[i] + '</label> </br>';
 
     }
 
