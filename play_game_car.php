@@ -142,6 +142,43 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
 
 
+						$sql = "SELECT doc_id FROM sentence_table WHERE sentence_id={$row["sentence_id"]}";
+						$result = mysqli_query($conn, $sql);
+						$row_doc_id = mysqli_fetch_assoc($result);
+						
+						$prev_sentence_id= $row["sentence_id"]-1;
+						$next_sentence_id= $row["sentence_id"]+1;
+
+						$sql = "SELECT sentence_string, sentence_latest_string FROM sentence_table WHERE doc_id={$row_doc_id["doc_id"]} AND sentence_id={$prev_sentence_id}";
+						$result = mysqli_query($conn, $sql);
+						if (mysqli_num_rows($result) > 0) {
+							// output data of each row
+							while($row_paste_sentence = mysqli_fetch_assoc($result)) {
+
+								//echo "previous sentence: ". $row_paste_sentence["sentence_string"]."<br>";
+								$json_sentence = $json_sentence . '"prev_sentence": "'.$row_paste_sentence["sentence_string"].'", '; // score
+	
+							}
+						} else {
+							$json_sentence = $json_sentence . '"prev_sentence": "", '; // score
+						}
+
+
+						$sql = "SELECT sentence_string, sentence_latest_string FROM sentence_table WHERE doc_id={$row_doc_id["doc_id"]} AND sentence_id={$next_sentence_id}";
+						$result = mysqli_query($conn, $sql);
+						if (mysqli_num_rows($result) > 0) {
+							// output data of each row
+							while($row_paste_sentence = mysqli_fetch_assoc($result)) {
+
+								//echo "previous sentence: ". $row_paste_sentence["sentence_string"]."<br>";
+								$json_sentence = $json_sentence . '"next_sentence": "'.$row_paste_sentence["sentence_string"].'", '; // score
+	
+							}
+						} else {
+							$json_sentence = $json_sentence . '"next_sentence": "", '; // score
+						}
+
+
 
 
 						$json_sentence = $json_sentence . '"sentence_string": "' . $row["current_string"] . '" ,'; // sentence_string
@@ -410,6 +447,8 @@ var taskID = sentence.task_ID;
 var fullSentence = sentence.sentence_string;
 var fsarray = fullSentence.split(" ");
 var prevscore = sentence.score;
+var prev_sentence = sentence.prev_sentence;
+var next_sentence = sentence.next_sentence;
 
 var wordsArray = sentence.action_words;
 //keeps track of current word position in the sentence
@@ -457,9 +496,18 @@ function populatePopup(){
     var toDisplay = "";
     //generate question
     var origverb = wordsArray[currentWord].word_string;
+    var sentenceBefore, sentenceAfter;
+    if (prev_sentence!="")
+    	sentenceBefore = '<span class = "sbefore">'+prev_sentence+'. </span>';
+    else
+    	sentenceBefore = '<span class = "sbefore"></span>';
 
-    var sentenceBefore = '<span class = "sbefore">This is the sentence that comes before.</span>';
-    var sentenceAfter = '<span class = "safter">This is the next sentence.</span></br>';
+    if (next_sentence!="")
+    	sentenceAfter = '<span class = "safter">'+next_sentence+'.</span></br>';
+    else 
+    	sentenceAfter = '<span class = "safter"></span></br>';
+    
+    
     toDisplayPhrase+=sentenceBefore;
     beforeWord+=sentenceBefore;
     var qstring = '<span name = "question"> ';
@@ -606,7 +654,7 @@ function popDown(){
     timeoutVar = window.setTimeout(displayPopup,10000);
 }
 function throw_to_server(){
-	document.getElementById("final_submit_button").innerHTML="Please Wait...";
+	document.getElementById("final_submit_button").innerHTML="Please Wait... Do NOT close this tab!";
 	document.getElementById("final_submit_button").disabled=true;
     var lowlcopy = lowlimit;
     for(j = lowlcopy; j<fsarray.length;j++){
