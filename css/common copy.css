@@ -35,14 +35,13 @@ body          { font-family: 'Roboto', sans-serif; }
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    text-align: center;
 
     /*position: relative; */
     z-index: 0;
     width: 640px;
      height: 480px;
      margin-left: 20em;
-     /*border: 2px solid black;*/
+     border: 2px solid black;
 }
 
 /* The actual popup */
@@ -72,10 +71,8 @@ button:focus {
 
 .popup form {
   line-height: 30px;
-  /*margin-left: 220px;*/
+  margin-left: 220px;
   opacity: 1;
-  margin: 1em;
-  text-align: center;
 }
 .popup #resultsummary {
   line-height: 30px;
@@ -84,8 +81,7 @@ button:focus {
 }
 
 .popup button {
-  /*margin-left: 290px;*/
-  text-align: center;
+  margin-left: 220px;
   color:black;
 }
 
@@ -95,13 +91,13 @@ button:focus {
 .popup label,
 .popup input[type=text] {
   min-width: 8em;
-  /*padding:5px;*/
+  padding:5px;
   text-align: center;
   background-color: #aaaaaa;
   border-radius: .2em;
   box-sizing: border-box;
   opacity: 1;
-  display: inline-block; 
+  display: inline; 
   font-weight: 100; 
 }
 
@@ -114,8 +110,7 @@ button:focus {
 }
 
 .popup #phrase {
-  /*margin-left: -200px;*/
-
+  margin-left: -200px;
 }
 
 .popup input[type=radio] {
@@ -173,4 +168,12 @@ span#phrase {
 @keyframes fadeIn {
     from {opacity: 0;}
     to {opacity:.8 ;}
+}
+
+
+label {
+     display: inline; 
+     max-width: 100%; 
+     margin-bottom: 2px; 
+     font-weight: 100; 
 }

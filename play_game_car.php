@@ -485,9 +485,10 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 		        <span class="popuptext" id="myPopup">
 		      <form id = "questionform">
 		        <span id = "phrase"></span>
-		        <span id="question"></span>
-		        </form>
+		        <span id="question"></span><br>
 		        <button onclick="popDown()">SUBMIT</button>
+		        </form>
+		        
 		        </span>
 		    </div>
 		    <script src="js/stats.js"></script>
