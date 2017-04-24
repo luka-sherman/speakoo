@@ -1,0 +1,88 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>jQuery Examples from SKFox.com</title>
+<style type="text/css" media="Screen">
+/*\*/@import url("css/layout-1-master.css");/**/
+</style>
+<script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script language="JavaScript" type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.5.2/jquery-ui.min.js"></script>
+<script language="JavaScript" type="text/javascript">
+
+$(document).ready( function() 
+{
+  $('#ClickWordList li').click(function() { 
+    $("#txtMessage").insertAtCaret($(this).text());
+    return false
+  });
+  
+});
+
+$.fn.insertAtCaret = function (myValue) {
+  return this.each(function(){
+      //IE support
+      if (document.selection) {
+          this.focus();
+          sel = document.selection.createRange();
+          sel.text = myValue;
+          this.focus();
+      }
+      //MOZILLA / NETSCAPE support
+      else if (this.selectionStart || this.selectionStart == '0') {
+          var startPos = this.selectionStart;
+          var endPos = this.selectionEnd;
+          var scrollTop = this.scrollTop;
+          this.value = this.value.substring(0, startPos)+ myValue+ this.value.substring(endPos,this.value.length);
+          this.value=this.value.replace(/ +(?= )/g, '');
+          this.focus();
+          this.selectionStart = startPos + myValue.length;
+          this.selectionEnd = startPos + myValue.length;
+          this.scrollTop = scrollTop;
+          console.log(this.value);
+      } else {
+          this.value += myValue;
+          this.focus();
+      }
+  });
+};
+
+</script>
+<style type="text/css" media="Screen">
+  #leftcolumn li{cursor:pointer;}
+  textarea[readonly].txtDropTarget {
+    cursor: auto;
+  } 
+</style>
+</head>
+<body>
+<div id="maincontainer">
+
+
+  
+  <div id="contentwrapper">
+    <div id="maincolumn">
+      <div class="text">
+        <h2>Message #1</h2>
+        <input type="text" class="form-control text-xl default-cursor" readonly>
+        <textarea name="txtMessage" readonly id="txtMessage" class="txtDropTarget" cols="80" rows="15">This sentence misses article.</textarea>  
+      </div>
+    </div>
+  </div>
+  <div id="leftcolumn">
+    <fieldset>
+    <legend>Click to insert:</legend>
+    <ul id="ClickWordList">
+      <li> a </li>
+      <li> an </li>
+      <li> the </li>
+    </ul>
+    </fieldset>
+    
+  </div>
+</div>
+
+
+</body>
+</html>

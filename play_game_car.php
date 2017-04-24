@@ -205,7 +205,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	if (stripos($haystack, $array_nltk_php[$i][0]) !== false) {//found
 							    		$json_sentence = $json_sentence . '"option_list": ["to", "for", "about", "at", "by", "in", "of", "on"]';
 							    	} else {
-							    		$json_sentence = $json_sentence . '"option_list": ["'.$array_nltk_php[$i][0].'", "to", "for", "about", "at", "by", "in", "of"]';
+							    		$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "to", "for", "about", "at", "by", "in", "of"]';
 							    	}
 
 
@@ -338,11 +338,6 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
 								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
 								    	$json_sentence = $json_sentence . '"option_list": [';
-
-
-
-										
-										
 
 										for($x = 0; $x < $arrlength; $x++) {
 											if(isset($array_verb[$x])){
