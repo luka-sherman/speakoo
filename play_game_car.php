@@ -537,7 +537,7 @@ function displayResult(){
   resultVar+= '<span id="resultsummary">Summary</br>';
   resultVar+= "Lap Completed: 100 pts</br>";
   resultVar+= "Bumps: -" + bumps * 5  + "pts</br>";
-  resultVar+= "Agreement Points: 80pts</br>"; //not taken into account yet, just a dummy sentence
+
   resultVar+= "Total: " + currentPoint + "pts</br></span>";
   resultVar+='  <button id="final_submit_button" onclick="throw_to_server()">SUBMIT</button>';
 
