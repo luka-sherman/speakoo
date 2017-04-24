@@ -90,7 +90,7 @@ if ( isset($_POST['correct_or_not_0']) && isset($_POST['pass_task_id']) ) {
 			
 			if ( isset($_POST['corrected_sentence_0']) ) {
 				
-				$corrected_sentence_0=htmlentities($_POST['corrected_sentence_0']);
+				$corrected_sentence_0=htmlentities(trim($_POST['corrected_sentence_0']));
 				$corrected_sentence_0 = mysqli_real_escape_string($conn, $corrected_sentence_0);
 				$iteration=$row["iteration_number"]+1;
 				

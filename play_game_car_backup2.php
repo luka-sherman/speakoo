@@ -191,7 +191,6 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						    
 						    $pos=$array_nltk_php[$i][1];
 						    switch ($pos) {
-
 							    case "IN":
 							    case "TO":
 							        //echo "preposition detected <br>";
@@ -200,84 +199,18 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	$json_sentence = $json_sentence . '{';
 							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
 							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-							    	$haystack="to for about at by in of on";
-
-							    	if (stripos($haystack, $array_nltk_php[$i][0]) !== false) {//found
-							    		$json_sentence = $json_sentence . '"option_list": ["to", "for", "about", "at", "by", "in", "of", "on"]';
-							    	} else {
-							    		$json_sentence = $json_sentence . '"option_list": ["'.$array_nltk_php[$i][0].'", "to", "for", "about", "at", "by", "in", "of"]';
-							    	}
-
-
+							    	$json_sentence = $json_sentence . '"option_list": ["to", "for", "about", "at", "by", "in", "of", "on"]';
 							    	$json_sentence = $json_sentence . '},';
 							        break;
-							    case "NN":
-							    case "NNP":
-							    	echo $array_nltk_php[$i][0]." is singular noun<br>";
-
-							    	$exeDirec ="\"import en; print en.noun.plural('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
-									$noun_plural= shell_exec($testexec);
-									echo $noun_plural.'<br>';
-
-									
-									$index = (int)$i+1;
-							    	$json_sentence = $json_sentence . '{';
-							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-							    	$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "'.trim($noun_plural).'"]';
-							    	$json_sentence = $json_sentence . '},';
-									
-
-
-							    	break;
-							    case "NNPS":
-							    case "NNS":
-							        echo $array_nltk_php[$i][0]. " is plural noun<br>";
-							        $exeDirec ="\"import en; print en.noun.singular('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
-									$noun_singular= shell_exec($testexec);
-									echo $noun_singular.'<br>';
-
-									
-									$index = (int)$i+1;
-							    	$json_sentence = $json_sentence . '{';
-							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-							    	$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "'.trim($noun_singular).'"]';
-							    	$json_sentence = $json_sentence . '},';
-							        break;
-
-
-
-
 							    case "DT":
 							        //echo "determiner detected <br>";
-							        if (strtoupper($array_nltk_php[$i][0])=="A"){
+							        if (strtoupper($array_nltk_php[$i][0])=="A" || strtoupper($array_nltk_php[$i][0])=="AN" || strtoupper($array_nltk_php[$i][0])=="THE" ){
 							        	//echo "suggesions: a, an, the<br>";
 							        	$index = (int)$i+1;
 								    	$json_sentence = $json_sentence . '{';
 								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
 								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
 								    	$json_sentence = $json_sentence . '"option_list": ["a", "an", "the"]';
-								    	$json_sentence = $json_sentence . '},';
-								        }
-								    if (strtoupper($array_nltk_php[$i][0])=="AN"){
-							        	//echo "suggesions: a, an, the<br>";
-							        	$index = (int)$i+1;
-								    	$json_sentence = $json_sentence . '{';
-								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-								    	$json_sentence = $json_sentence . '"option_list": ["an", "a", "the"]';
-								    	$json_sentence = $json_sentence . '},';
-								        }
-								    if (strtoupper($array_nltk_php[$i][0])=="THE" ){
-							        	//echo "suggesions: a, an, the<br>";
-							        	$index = (int)$i+1;
-								    	$json_sentence = $json_sentence . '{';
-								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-								    	$json_sentence = $json_sentence . '"option_list": ["the", "a", "an"]';
 								    	$json_sentence = $json_sentence . '},';
 								        }
 							        break;
