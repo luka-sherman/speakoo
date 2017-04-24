@@ -109,7 +109,7 @@ if (mysqli_query($conn, $sql)) {
 
 
 
-$filename="transcript1"; //later on, make sure same document doesn't get populated twice
+$filename="transcript2"; //later on, make sure same document doesn't get populated twice
 $mypath = "data/$filename.txt";
 if( file_exists($mypath) ) {
   $transcriptFile = fopen($mypath,"r") or die("Unable to open file!");
