@@ -213,12 +213,12 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							        break;
 							    case "NN":
 							    case "NNP":
-							    	echo $array_nltk_php[$i][0]." is singular noun<br>";
+							    	//echo $array_nltk_php[$i][0]." is singular noun<br>";
 
 							    	$exeDirec ="\"import en; print en.noun.plural('". $array_nltk_php[$i][0] ."');\"";
 							    	$testexec = "/usr/local/bin/python -c $exeDirec";
 									$noun_plural= shell_exec($testexec);
-									echo $noun_plural.'<br>';
+									//echo $noun_plural.'<br>';
 
 									
 									$index = (int)$i+1;
@@ -233,11 +233,11 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	break;
 							    case "NNPS":
 							    case "NNS":
-							        echo $array_nltk_php[$i][0]. " is plural noun<br>";
+							        //echo $array_nltk_php[$i][0]. " is plural noun<br>";
 							        $exeDirec ="\"import en; print en.noun.singular('". $array_nltk_php[$i][0] ."');\"";
 							    	$testexec = "/usr/local/bin/python -c $exeDirec";
 									$noun_singular= shell_exec($testexec);
-									echo $noun_singular.'<br>';
+									//echo $noun_singular.'<br>';
 
 									
 									$index = (int)$i+1;
@@ -486,9 +486,9 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 		      <form id = "questionform">
 		        <span id = "phrase"></span>
 		        <span id="question"></span><br>
-		        <button onclick="popDown()">SUBMIT</button>
-		        </form>
 		        
+		        </form>
+		        <button onclick="popDown()">SUBMIT</button>
 		        </span>
 		    </div>
 		    <script src="js/stats.js"></script>

@@ -28,7 +28,7 @@ body          { font-family: 'Roboto', sans-serif; }
 #hud .fastest          { background-color: rgba(255,215,0,0.5); }
 
 .popup {
-    position: relative;
+    /*position: relative;*/
     /*display: inline-block;*/
     cursor: pointer;
     -webkit-user-select: none;
@@ -41,7 +41,7 @@ body          { font-family: 'Roboto', sans-serif; }
     z-index: 0;
     width: 640px;
      height: 480px;
-     margin-left: 20em;
+     /*margin-left: 20em;*/
      /*border: 2px solid black;*/
 }
 
@@ -58,9 +58,10 @@ body          { font-family: 'Roboto', sans-serif; }
     position: absolute;
     /*position: relative;*/
     z-index: 1;
-    bottom: 125%;
-    left: 50%;
-    margin-left: -315px;
+    left: 0%;
+    top:0%;
+    margin-top: 100px;
+    margin-left: 300px;
 }
 
 input:focus,
@@ -84,7 +85,7 @@ button:focus {
 }
 
 .popup button {
-  /*margin-left: 290px;*/
+  margin-left: 285px;
   text-align: center;
   color:black;
 }
