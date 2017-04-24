@@ -17,7 +17,7 @@ $(document).ready( function()
     $("#txtMessage").insertAtCaret($(this).text());
     return false
   });
-  
+  $("textarea").keydown(false);
 });
 
 $.fn.insertAtCaret = function (myValue) {
@@ -51,9 +51,7 @@ $.fn.insertAtCaret = function (myValue) {
 </script>
 <style type="text/css" media="Screen">
   #leftcolumn li{cursor:pointer;}
-  textarea[readonly].txtDropTarget {
-    cursor: auto;
-  } 
+  
 </style>
 </head>
 <body>
@@ -65,7 +63,7 @@ $.fn.insertAtCaret = function (myValue) {
     <div id="maincolumn">
       <div class="text">
         <h2>Message #1</h2>
-        <input type="text" class="form-control text-xl default-cursor" readonly>
+        
         <textarea name="txtMessage" readonly id="txtMessage" class="txtDropTarget" cols="80" rows="15">This sentence misses article.</textarea>  
       </div>
     </div>
