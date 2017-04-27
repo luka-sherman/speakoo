@@ -571,35 +571,35 @@ function populatePopup(){
     	sentenceAfter = '<span class = "safter"></span></br>';
     
     
-    toDisplayPhrase+=sentenceBefore;
-    beforeWord+=sentenceBefore;
-    var qstring = '<span name = "question"> ';
-    beforeWord+= '<span name = "question"> ';
+    toDisplayPhrase += sentenceBefore;
+    beforeWord += sentenceBefore;
+    var qstring = '<span name="question"> ';
+    beforeWord+= '<span name="question"> ';
     var boldWord = "";
     var thereyet = 0;
-    for(j = 0; j<fsarray.length; j++){
-      if (thereyet==1) {
+    for(j = 0; j < fsarray.length; j++){
+      if (thereyet == 1) {
         afterWord += fsarray[j] + " ";
       }
-      if(j+1 == wordsArray[currentWord].word_index){
-        qstring+="<b>" + fsarray[j] + "</b> ";
+      if(j + 1 == wordsArray[currentWord].word_index){
+        qstring += '<span class="current_word">' + fsarray[j] + '</span> ';
         boldWord = fsarray[j];
-        thereyet=1;
+        thereyet = 1;
       }
       else{
         qstring += fsarray[j] + " ";
       }
-      if (thereyet==0) {
-        beforeWord+=fsarray[j] + " ";
+      if (thereyet == 0) {
+        beforeWord += fsarray[j] + " ";
       }
     }
     qstring = qstring.slice(0,-1);
     qstring += '. </span>';
     afterWord = afterWord.slice(0, -1);
     afterWord += '. </span>';
-    toDisplayPhrase+=qstring;
-    toDisplayPhrase+=sentenceAfter;
-    afterWord+=sentenceAfter;
+    toDisplayPhrase += qstring;
+    toDisplayPhrase += sentenceAfter;
+    afterWord += sentenceAfter;
 
     //console.log(beforeWord);
     //console.log(afterWord);
