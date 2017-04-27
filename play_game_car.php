@@ -126,6 +126,8 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						
 						$test = $python_dir." -c $exeDir";
 						$array_nltk= shell_exec($test);
+
+
 						$array_nltk_php = json_decode($array_nltk);
 
 						
@@ -586,7 +588,7 @@ function populatePopup(){
         afterWord += fsarray[j] + " ";
       }
       if(j+1 == wordsArray[currentWord].word_index){
-        qstring+="<b>" + fsarray[j] + "</b> ";
+        qstring+='<b class="current_word">' + fsarray[j] + "</b> ";
         boldWord = fsarray[j];
         thereyet=1;
       }
@@ -614,12 +616,18 @@ function populatePopup(){
     var currrentSelection = "";
 
     for(i = 0; i<optionLength;i++){
-      if(i==0) {
-        toDisplay = toDisplay + '<input type = "radio" checked="checked" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
-      }
-      else {
-        toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
-      }
+ //     if(i==0) {
+ //      toDisplay = toDisplay + '<input type = "radio" checked="checked" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
+ //     }
+ //     else {
+ 		if(optionarray[i]==origverb){
+	        toDisplay = toDisplay + '<input type = "radio" name = "answer" checked = "checked" id="option'+ i +'" value = ' + optionarray[i];
+ 		}
+ 		else{
+ 			toDisplay = toDisplay + '<input type = "radio" name = "answer" id="option'+ i +'" value = ' + optionarray[i];
+
+ 		}
+ //     }
       toDisplay+='> <label for="option'+i+'" class="optionLabel">' + optionarray[i] + '</label> </br>';
 
     }
@@ -691,6 +699,7 @@ function popDown(){
       var str = "option"+i;
       if(document.getElementById(str).checked == true){
           toReturn+=document.getElementById(str).value + " ";
+          fsarray[currentWord+1] = document.getElementById(str).value; // Change fsarray so sentence changes in popup
           lowlimit = wordsArray[currentWord].word_index;
           currentWord++;
           timeoutVar = window.setTimeout(displayPopup,10000);
@@ -700,6 +709,7 @@ function popDown(){
     }
     if(document.getElementById("delete").checked==true){
       console.log(toReturn + " is the current toReturn ");
+      fsarray[currentWord+1] = ""; // Blank out current word in fsarray to "delete" it in the popup
       timeoutVar = window.setTimeout(displayPopup,10000);
       lowlimit = wordsArray[currentWord].word_index;
       currentWord++;
@@ -707,6 +717,7 @@ function popDown(){
     }
     else if(document.getElementById("modifyRadio").checked == true){
         toReturn += document.getElementById("modify").value + " ";
+        fsarray[currentWord+1] = document.getElementById("modify").value; // Change fsarray so sentence changes in popup
         console.log(toReturn + " is the current toReturn ");
         timeoutVar = window.setTimeout(displayPopup,10000);
         lowlimit = wordsArray[currentWord].word_index;
