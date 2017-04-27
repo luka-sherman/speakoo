@@ -687,6 +687,7 @@ function popDown(){
       var str = "option"+i;
       if(document.getElementById(str).checked == true){
           toReturn+=document.getElementById(str).value + " ";
+	  fsarray[currentWord] = document.getElementById(str).value; // Change fsarray so sentence changes in popup
           lowlimit = wordsArray[currentWord].word_index;
           currentWord++;
           timeoutVar = window.setTimeout(displayPopup,10000);
@@ -696,6 +697,7 @@ function popDown(){
     }
     if(document.getElementById("delete").checked==true){
       console.log(toReturn + " is the current toReturn ");
+      fsarray[currentWord] = ""; // Blank out current word in fsarray to "delete" it in the popup
       timeoutVar = window.setTimeout(displayPopup,10000);
       lowlimit = wordsArray[currentWord].word_index;
       currentWord++;
@@ -703,6 +705,7 @@ function popDown(){
     }
     else if(document.getElementById("modifyRadio").checked == true){
         toReturn += document.getElementById("modify").value + " ";
+	fsarray[currentWord] = document.getElementById("modify").value; // Change fsarray so sentence changes in popup
         console.log(toReturn + " is the current toReturn ");
         timeoutVar = window.setTimeout(displayPopup,10000);
         lowlimit = wordsArray[currentWord].word_index;
