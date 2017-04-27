@@ -1,14 +1,14 @@
 <?php error_reporting(E_ALL);
 ini_set('display_errors',1);
 session_start(); ?>
-<?php require_once 'db_connect.php';
-$python_dir="/usr/local/bin/python";?>
+<?php require_once 'db_connect.php';?>
 
 <?php
 if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the page
 	//echo "who are you?"; //redirect to login later
 	header('Location: index.php');
 	die();
+
 }
 ?>
     <html>
@@ -84,6 +84,8 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
             <!--<h2>Welcome, <?php //echo $_SESSION["name"];?>, to Speakoo!</h2>-->
             <!--<h3>Grammar Correction</h3>-->
             <?php
+            global $python_dir;
+            $python_dir="/usr/local/bin/python";
 			$sql = "SELECT task_id, sentence_id, current_string, current_state, resolved_flag, resolving_user_id, iteration_number FROM task_table";
 			
 			$result = mysqli_query($conn, $sql);
@@ -121,6 +123,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						$exeDir ="\"import nltk; import json; text = nltk.word_tokenize('".$row["current_string"]."');print json.dumps(nltk.pos_tag(text))\"";
 						
 						//$exeDir2 ="\"import nltk;text = nltk.word_tokenize('".$row["current_string"]."');print nltk.pos_tag(text)\"";
+						
 						$test = $python_dir." -c $exeDir";
 						$array_nltk= shell_exec($test);
 						$array_nltk_php = json_decode($array_nltk);
@@ -217,7 +220,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	//echo $array_nltk_php[$i][0]." is singular noun<br>";
 
 							    	$exeDirec ="\"import en; print en.noun.plural('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$noun_plural= shell_exec($testexec);
 									//echo $noun_plural.'<br>';
 
@@ -236,7 +239,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    case "NNS":
 							        //echo $array_nltk_php[$i][0]. " is plural noun<br>";
 							        $exeDirec ="\"import en; print en.noun.singular('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$noun_singular= shell_exec($testexec);
 									//echo $noun_singular.'<br>';
 
@@ -291,35 +294,35 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	//echo "verb detected <br>";
 							    	//echo "suggestions: ";
 							    	$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 1);\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_present_1= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 2);\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_present_2= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 3);\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_present_3= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.infinitive('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_infinitive= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.present_participle('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_present_participle= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."', person = 1);\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_past_1= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."', person = 2);\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_past_2= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."', person = 3);\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_past_3= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.past_participle('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = $python_dir." -c $exeDir";
+							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_past_participle= shell_exec($testexec);
 
 
@@ -572,35 +575,35 @@ function populatePopup(){
     	sentenceAfter = '<span class = "safter"></span></br>';
     
     
-    toDisplayPhrase += sentenceBefore;
-    beforeWord += sentenceBefore;
-    var qstring = '<span name="question"> ';
-    beforeWord+= '<span name="question"> ';
+    toDisplayPhrase+=sentenceBefore;
+    beforeWord+=sentenceBefore;
+    var qstring = '<span name = "question"> ';
+    beforeWord+= '<span name = "question"> ';
     var boldWord = "";
     var thereyet = 0;
-    for(j = 0; j < fsarray.length; j++){
-      if (thereyet == 1) {
+    for(j = 0; j<fsarray.length; j++){
+      if (thereyet==1) {
         afterWord += fsarray[j] + " ";
       }
-      if(j + 1 == wordsArray[currentWord].word_index){
-        qstring += '<span class="current_word">' + fsarray[j] + '</span> ';
+      if(j+1 == wordsArray[currentWord].word_index){
+        qstring+="<b>" + fsarray[j] + "</b> ";
         boldWord = fsarray[j];
-        thereyet = 1;
+        thereyet=1;
       }
       else{
         qstring += fsarray[j] + " ";
       }
-      if (thereyet == 0) {
-        beforeWord += fsarray[j] + " ";
+      if (thereyet==0) {
+        beforeWord+=fsarray[j] + " ";
       }
     }
     qstring = qstring.slice(0,-1);
     qstring += '. </span>';
     afterWord = afterWord.slice(0, -1);
     afterWord += '. </span>';
-    toDisplayPhrase += qstring;
-    toDisplayPhrase += sentenceAfter;
-    afterWord += sentenceAfter;
+    toDisplayPhrase+=qstring;
+    toDisplayPhrase+=sentenceAfter;
+    afterWord+=sentenceAfter;
 
     //console.log(beforeWord);
     //console.log(afterWord);
@@ -688,7 +691,6 @@ function popDown(){
       var str = "option"+i;
       if(document.getElementById(str).checked == true){
           toReturn+=document.getElementById(str).value + " ";
-	  fsarray[currentWord] = document.getElementById(str).value; // Change fsarray so sentence changes in popup
           lowlimit = wordsArray[currentWord].word_index;
           currentWord++;
           timeoutVar = window.setTimeout(displayPopup,10000);
@@ -698,7 +700,6 @@ function popDown(){
     }
     if(document.getElementById("delete").checked==true){
       console.log(toReturn + " is the current toReturn ");
-      fsarray[currentWord] = ""; // Blank out current word in fsarray to "delete" it in the popup
       timeoutVar = window.setTimeout(displayPopup,10000);
       lowlimit = wordsArray[currentWord].word_index;
       currentWord++;
@@ -706,7 +707,6 @@ function popDown(){
     }
     else if(document.getElementById("modifyRadio").checked == true){
         toReturn += document.getElementById("modify").value + " ";
-	fsarray[currentWord] = document.getElementById("modify").value; // Change fsarray so sentence changes in popup
         console.log(toReturn + " is the current toReturn ");
         timeoutVar = window.setTimeout(displayPopup,10000);
         lowlimit = wordsArray[currentWord].word_index;
