@@ -32,7 +32,7 @@ body {
 }
 
 /* Style for highlighted word in popup */
-.current_word {
+#current_word {
 	font-weight: bold;
 	text-decoration: underline;
 }

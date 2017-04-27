@@ -588,7 +588,7 @@ function populatePopup(){
         afterWord += fsarray[j] + " ";
       }
       if(j+1 == wordsArray[currentWord].word_index){
-        qstring+='<b class="current_word">' + fsarray[j] + "</b> ";
+        qstring+='<span id = "current_word"><b>' + fsarray[j] + "</b></span> ";
         boldWord = fsarray[j];
         thereyet=1;
       }

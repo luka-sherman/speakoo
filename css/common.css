@@ -78,6 +78,10 @@ button:focus {
   margin: 1em;
   text-align: center;
 }
+
+.popup form b{
+  text-decoration: underline;
+}
 .popup #resultsummary {
   line-height: 30px;
   margin-left: 40%;
@@ -165,6 +169,12 @@ span#phrase {
   color: #bbbec1;
   font-size: 14px;
 }
+/* Style for highlighted word in popup */
+#current_word {
+	font-weight: bold;
+	text-decoration: underline;
+}
+
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
     from {opacity: 0;}
