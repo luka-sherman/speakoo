@@ -30,3 +30,9 @@ body {
 	background-color: #606060;
 
 }
+
+/* Style for highlighted word in popup */
+.current_word {
+	font-weight: bold;
+	text-decoration: underline;
+}
