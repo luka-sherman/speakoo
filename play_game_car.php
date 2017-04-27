@@ -1,7 +1,8 @@
 <?php error_reporting(E_ALL);
 ini_set('display_errors',1);
 session_start(); ?>
-<?php require_once 'db_connect.php';?>
+<?php require_once 'db_connect.php';
+$python_dir="/usr/local/bin/python";?>
 
 <?php
 if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the page
@@ -120,7 +121,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						$exeDir ="\"import nltk; import json; text = nltk.word_tokenize('".$row["current_string"]."');print json.dumps(nltk.pos_tag(text))\"";
 						
 						//$exeDir2 ="\"import nltk;text = nltk.word_tokenize('".$row["current_string"]."');print nltk.pos_tag(text)\"";
-						$test = "/usr/local/bin/python -c $exeDir";
+						$test = $python_dir." -c $exeDir";
 						$array_nltk= shell_exec($test);
 						$array_nltk_php = json_decode($array_nltk);
 
@@ -216,7 +217,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	//echo $array_nltk_php[$i][0]." is singular noun<br>";
 
 							    	$exeDirec ="\"import en; print en.noun.plural('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$noun_plural= shell_exec($testexec);
 									//echo $noun_plural.'<br>';
 
@@ -235,7 +236,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    case "NNS":
 							        //echo $array_nltk_php[$i][0]. " is plural noun<br>";
 							        $exeDirec ="\"import en; print en.noun.singular('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$noun_singular= shell_exec($testexec);
 									//echo $noun_singular.'<br>';
 
@@ -290,35 +291,35 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    	//echo "verb detected <br>";
 							    	//echo "suggestions: ";
 							    	$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 1);\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_present_1= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 2);\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_present_2= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 3);\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_present_3= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.infinitive('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_infinitive= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.present_participle('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_present_participle= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."', person = 1);\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_past_1= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."', person = 2);\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_past_2= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.past('". $array_nltk_php[$i][0] ."', person = 3);\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_past_3= shell_exec($testexec);
 
 									$exeDirec ="\"import en; print en.verb.past_participle('". $array_nltk_php[$i][0] ."');\"";
-							    	$testexec = "/usr/local/bin/python -c $exeDirec";
+							    	$testexec = $python_dir." -c $exeDir";
 									$verb_past_participle= shell_exec($testexec);
 
 
