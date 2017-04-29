@@ -196,39 +196,29 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 						    //echo $array_nltk_php[$i][1]."<br>"; // the pos
 						    
 						    $pos=$array_nltk_php[$i][1];
-
-						    $index = (int)$i+1;
-
-							//$options = array();
-							$keep_word = true;
-
 						    switch ($pos) {
+
 							    case "IN":
 							    case "TO":
 							        //echo "preposition detected <br>";
 							        //echo "suggestions: about, above, after, against, at, by, for, in, into, of, off, on, onto, over, to, toward, towards, up, upon, with, within, without <br><br>";
-							    	
-							    	
+							    	$index = (int)$i+1;
+							    	$json_sentence = $json_sentence . '{';
+							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
 							    	$haystack="to for about at by in of on";
 
-
-
-
-
-
 							    	if (stripos($haystack, $array_nltk_php[$i][0]) !== false) {//found
-							    		//$json_sentence = $json_sentence . '"option_list": ["to", "for", "about", "at", "by", "in", "of", "on"]';
-							    		$options = array("to", "for", "about", "at", "by", "in", "of", "on");
+							    		$json_sentence = $json_sentence . '"option_list": ["to", "for", "about", "at", "by", "in", "of", "on"]';
 							    	} else {
-							    		//$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "to", "for", "about", "at", "by", "in", "of"]';
-							    		$options = array(trim($array_nltk_php[$i][0]), "to", "for", "about", "at", "by", "in", "of", "on");
+							    		$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "to", "for", "about", "at", "by", "in", "of"]';
 							    	}
 
 
-							    	//$json_sentence = $json_sentence . '},';
+							    	$json_sentence = $json_sentence . '},';
 							        break;
 							    case "NN":
-							    //case "NNP":
+							    case "NNP":
 							    	//echo $array_nltk_php[$i][0]." is singular noun<br>";
 
 							    	$exeDirec ="\"import en; print en.noun.plural('". $array_nltk_php[$i][0] ."');\"";
@@ -237,17 +227,17 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 									//echo $noun_plural.'<br>';
 
 									
-									//$index = (int)$i+1;
-							    	//$json_sentence = $json_sentence . '{';
-							    	//$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-							    	//$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-							    	//$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "'.trim($noun_plural).'"]';
-							    	//$json_sentence = $json_sentence . '},';
-									$options = array(trim($array_nltk_php[$i][0]), trim($noun_plural));
+									$index = (int)$i+1;
+							    	$json_sentence = $json_sentence . '{';
+							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
+							    	$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "'.trim($noun_plural).'"]';
+							    	$json_sentence = $json_sentence . '},';
+									
 
 
 							    	break;
-							    //case "NNPS":
+							    case "NNPS":
 							    case "NNS":
 							        //echo $array_nltk_php[$i][0]. " is plural noun<br>";
 							        $exeDirec ="\"import en; print en.noun.singular('". $array_nltk_php[$i][0] ."');\"";
@@ -256,13 +246,12 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 									//echo $noun_singular.'<br>';
 
 									
-									//$index = (int)$i+1;
-							    	//$json_sentence = $json_sentence . '{';
-							    	//$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-							    	//$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-							    	//$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "'.trim($noun_singular).'"]';
-							    	//$json_sentence = $json_sentence . '},';
-							    	$options = array(trim($array_nltk_php[$i][0]), trim($noun_singular));
+									$index = (int)$i+1;
+							    	$json_sentence = $json_sentence . '{';
+							    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+							    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
+							    	$json_sentence = $json_sentence . '"option_list": ["'.trim($array_nltk_php[$i][0]).'", "'.trim($noun_singular).'"]';
+							    	$json_sentence = $json_sentence . '},';
 							        break;
 
 
@@ -272,37 +261,31 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							        //echo "determiner detected <br>";
 							        if (strtoupper($array_nltk_php[$i][0])=="A"){
 							        	//echo "suggesions: a, an, the<br>";
-							        	//$index = (int)$i+1;
-								    	//$json_sentence = $json_sentence . '{';
-								    	//$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								    	//$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-								    	//$json_sentence = $json_sentence . '"option_list": ["a", "an", "the"]';
-								    	//$json_sentence = $json_sentence . '},';
-								    	$options = array("a", "an", "the");
+							        	$index = (int)$i+1;
+								    	$json_sentence = $json_sentence . '{';
+								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
+								    	$json_sentence = $json_sentence . '"option_list": ["a", "an", "the"]';
+								    	$json_sentence = $json_sentence . '},';
 								        }
-								    elseif (strtoupper($array_nltk_php[$i][0])=="AN"){
+								    if (strtoupper($array_nltk_php[$i][0])=="AN"){
 							        	//echo "suggesions: a, an, the<br>";
-							        	//$index = (int)$i+1;
-								    	//$json_sentence = $json_sentence . '{';
-								    	//$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								    	//$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-								    	//$json_sentence = $json_sentence . '"option_list": ["an", "a", "the"]';
-								    	//$json_sentence = $json_sentence . '},';
-								    	$options = array("an", "a", "the");
+							        	$index = (int)$i+1;
+								    	$json_sentence = $json_sentence . '{';
+								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
+								    	$json_sentence = $json_sentence . '"option_list": ["an", "a", "the"]';
+								    	$json_sentence = $json_sentence . '},';
 								        }
-								    elseif (strtoupper($array_nltk_php[$i][0])=="THE" ){
+								    if (strtoupper($array_nltk_php[$i][0])=="THE" ){
 							        	//echo "suggesions: a, an, the<br>";
-							        	//$index = (int)$i+1;
-								    	//$json_sentence = $json_sentence . '{';
-								    	//$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								    	//$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-								    	//$json_sentence = $json_sentence . '"option_list": ["the", "a", "an"]';
-								    	//$json_sentence = $json_sentence . '},';
-								    	$options = array("the", "a", "an");
+							        	$index = (int)$i+1;
+								    	$json_sentence = $json_sentence . '{';
+								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
+								    	$json_sentence = $json_sentence . '"option_list": ["the", "a", "an"]';
+								    	$json_sentence = $json_sentence . '},';
 								        }
-								    else {
-								    	$keep_word = false;
-								    }
 							        break;
 							    case "VB":
 							    case "VBD":
@@ -312,7 +295,7 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 							    case "VBZ":
 							    	//echo "verb detected <br>";
 							    	//echo "suggestions: ";
-							    	/*$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 1);\"";
+							    	$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 1);\"";
 							    	$testexec = $python_dir." -c $exeDirec";
 									$verb_present_1= shell_exec($testexec);
 									$exeDirec ="\"import en; print en.verb.present('". $array_nltk_php[$i][0] ."', person = 2);\"";
@@ -342,39 +325,24 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
 									$exeDirec ="\"import en; print en.verb.past_participle('". $array_nltk_php[$i][0] ."');\"";
 							    	$testexec = $python_dir." -c $exeDirec";
-									$verb_past_participle= shell_exec($testexec);*/
-
-									$exeDirec = "\"import en;";
-									$exeDirec .= " print en.verb.present('". $array_nltk_php[$i][0] ."', person = 1) + ',';";
-									$exeDirec .= " print en.verb.present('". $array_nltk_php[$i][0] ."', person = 2) + ',';";
-									$exeDirec .= " print en.verb.present('". $array_nltk_php[$i][0] ."', person = 3) + ',';";
-									$exeDirec .= " print en.verb.past('". $array_nltk_php[$i][0] ."', person = 1) + ',';";
-									$exeDirec .= " print en.verb.past('". $array_nltk_php[$i][0] ."', person = 2) + ',';";
-									$exeDirec .= " print en.verb.past('". $array_nltk_php[$i][0] ."', person = 3) + ',';";
-									$exeDirec .= " print en.verb.infinitive('". $array_nltk_php[$i][0] ."') + ',';";
-									$exeDirec .= " print en.verb.present_participle('". $array_nltk_php[$i][0] ."') + ',';";
-									$exeDirec .= " print en.verb.past_participle('". $array_nltk_php[$i][0] ."');\"";
-									//echo $exeDirec;
-									$testexec = $python_dir." -c $exeDirec";
-									$verb_list= shell_exec($testexec);
-									$array_verb = explode(",\n", $verb_list);
+									$verb_past_participle= shell_exec($testexec);
 
 
-									//$array_verb = array($verb_present_1, $verb_present_2, $verb_present_3, $verb_infinitive, $verb_present_participle, $verb_past_1, $verb_past_1, $verb_past_1, $verb_past_participle);
+									$array_verb = array($verb_present_1, $verb_present_2, $verb_present_3, $verb_infinitive, $verb_present_participle, $verb_past_1, $verb_past_1, $verb_past_1, $verb_past_participle);
 
 									
 									
 
-							    	$options= array_values(array_unique($array_verb, SORT_REGULAR));
+							    	$array_verb= array_values(array_unique($array_verb, SORT_REGULAR));
 							    	//var_dump($array_verb);
 
-							    	//$arrlength = count($array_verb);
+							    	$arrlength = count($array_verb);
 
-							    	/*if($array_verb[0]!=""){
-								    	//$index = (int)$i+1;
-								    	//$json_sentence = $json_sentence . '{';
-								    	//$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								    	//$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
+							    	if($array_verb[0]!=""){
+								    	$index = (int)$i+1;
+								    	$json_sentence = $json_sentence . '{';
+								    	$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
+								    	$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
 								    	$json_sentence = $json_sentence . '"option_list": [';
 
 										for($x = 0; $x < $arrlength; $x++) {
@@ -389,48 +357,14 @@ if( !isset($_SESSION["name"]) ) { // not logged in, not permitted to view the pa
 
 
 								    	$json_sentence = $json_sentence . ']},';
-								    }*/
+								    }
 							    	break;
 							    default:
 							        //code to be executed if n is different from all labels;
-							    	$keep_word = false;
 							    	break;
-							}
-							if ( $keep_word ) {	
-								// If this is the first word in the sentence, capitalize all options
-								if ( $index == 1 ) {
-									foreach ( $options as $j => $word ) {
-										$options[$j] = ucfirst($word);
-									}
-								}
-
-								// Build JSON array
-								$arrlength = count($options);
-
-								$json_sentence = $json_sentence . '{';
-								$json_sentence = $json_sentence . '"word_string": "' .$array_nltk_php[$i][0].'",' ;
-								$json_sentence = $json_sentence . '"word_index": ' .(int)$index.',';
-								$json_sentence = $json_sentence . '"option_list": [';
-
-								for($x = 0; $x < $arrlength; $x++) {
-									if(isset($options[$x])){
-										//echo $x . '<br>';
-										$json_sentence = $json_sentence . '"' . trim($options[$x]) . '"';
-										if((int)$x != (int)$arrlength-1){
-											$json_sentence = $json_sentence . ',';
-										}
-									}
-								}
-
-								$json_sentence = $json_sentence . ']},';
 							}
 
 						}
-
-						
-
-
-				    	
 
 						$json_sentence=substr($json_sentence, 0, -1);
 						$json_sentence = $json_sentence . ']}';
@@ -753,7 +687,6 @@ function popDown(){
     document.getElementById("myPopup").classList.remove("show");
     paused = false;
     var lowlcopy = lowlimit;
-    var indexInFS = wordsArray[currentWord].word_index - 1;
     for(j = lowlcopy; j<wordsArray[currentWord].word_index-1;j++){
       toReturn+=fsarray[j] + " ";
     }
@@ -766,7 +699,7 @@ function popDown(){
       var str = "option"+i;
       if(document.getElementById(str).checked == true){
           toReturn+=document.getElementById(str).value + " ";
-          fsarray[indexInFS] = document.getElementById(str).value; // Change fsarray so sentence changes in popup
+          fsarray[currentWord+1] = document.getElementById(str).value; // Change fsarray so sentence changes in popup
           lowlimit = wordsArray[currentWord].word_index;
           currentWord++;
           timeoutVar = window.setTimeout(displayPopup,10000);
@@ -776,7 +709,7 @@ function popDown(){
     }
     if(document.getElementById("delete").checked==true){
       console.log(toReturn + " is the current toReturn ");
-      fsarray[indexInFS] = ""; // Blank out current word in fsarray to "delete" it in the popup
+      fsarray[currentWord+1] = ""; // Blank out current word in fsarray to "delete" it in the popup
       timeoutVar = window.setTimeout(displayPopup,10000);
       lowlimit = wordsArray[currentWord].word_index;
       currentWord++;
@@ -784,19 +717,18 @@ function popDown(){
     }
     else if(document.getElementById("modifyRadio").checked == true){
         toReturn += document.getElementById("modify").value + " ";
-        fsarray[indexInFS] = document.getElementById("modify").value; // Change fsarray so sentence changes in popup
+        fsarray[currentWord+1] = document.getElementById("modify").value; // Change fsarray so sentence changes in popup
         console.log(toReturn + " is the current toReturn ");
         timeoutVar = window.setTimeout(displayPopup,10000);
         lowlimit = wordsArray[currentWord].word_index;
         currentWord++;
         return;
     }
-    //toReturn += fsarray[currentWord];
-    toReturn += fsarray[indexInFS];
+    toReturn += fsarray[currentWord];
     lowlimit = wordsArray[currentWord].word_index;
     console.log(toReturn + " is the current toReturn");
 
-    //currentWord++;
+    currentWord++;
     timeoutVar = window.setTimeout(displayPopup,10000);
 }
 function throw_to_server(){
