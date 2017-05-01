@@ -806,7 +806,10 @@ function throw_to_server(){
     for(j = lowlcopy; j<fsarray.length;j++){
       toReturn+=fsarray[j] + " ";
     }
-    var n = fullSentence.localeCompare(toReturn);
+    toReturn_compare=toReturn.trim().toLowerCase();
+    fullSentence_compare=fullSentence.trim().toLowerCase();
+
+    var n = fullSentence_compare.localeCompare(toReturn_compare);
     if (n == 0) {
         var $correct_or_not_0 = "yes";
     } else {
@@ -816,8 +819,11 @@ function throw_to_server(){
     $updated_level=2;
 
     console.log(toReturn);
-    console.log(taskID);
+    console.log(fullSentence);
+    console.log(n);
+    
     console.log($correct_or_not_0);
+    console.log(taskID);
     console.log(currentPoint);
     console.log($updated_level);
 
